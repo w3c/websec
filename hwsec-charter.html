@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html
+  lang="en-US" xml:lang="en-US" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
+    <title>Draft Hardware Security (HaSec) Working Group Charter</title>
+    <link type="text/css" href="https://www.w3.org/2005/10/w3cdoc.css" rel="stylesheet" />
+    <link href="https://www.w3.org/Guide/pubrules-style.css" type="text/css"
+      rel="stylesheet" />
+    <link href="https://www.w3.org/2006/02/charter-style.css" type="text/css"
+      rel="stylesheet" />
+  </head>
+  <body>
+    <div id="template">
+      <ul style="font-size: small;" id="navbar">
+        <li><a href="#scope">Scope</a></li>
+        <li><a href="#deliverables">Deliverables</a></li>
+        <li><a href="#coordination">Dependencies</a></li>
+        <li><a href="#participation">Participation</a></li>
+        <li><a href="#communication">Communication</a></li>
+        <li><a href="#decisions">Decision Policy</a></li>
+        <li><a href="#patentpolicy">Patent Disclosures </a></li>
+        <li><a href="#about">About this Charter</a></li>
+      </ul>
+      <p><a shape="rect" href="http://www.w3.org/"><img width="72" height="48"
+            src="http://www.w3.org/Icons/w3c_home" alt="W3C" /></a> <a shape="rect"
+          href="http://www.w3.org/TandS/" class="domainlogo"><img alt="TandS Domain"
+            src="http://www.w3.org/Icons/tands.gif" /></a> </p>
+      <h1 id="title"><strong>DRAFT</strong><br /> 
+        Hardware Security (HaSec) Working Group Charter</h1>
+      <p class="mission"> The <strong>mission</strong> of the <a href="Overview.html">Hardware
+          Security Working Group</a>, part of the <a href="../../Security/Activity.html">Security
+          Activity</a>, is to define a set of Hardware-Based Web Security
+        standard services providing Web Applications usage of secure
+        services enabled by hardware modules (TEE, secure elements, and
+        other secure enablers). </p>
+      <div class="noprint">
+        <p class="join"><a href="https://www.w3.org/2004/01/pp-impl/@@number@@/join">Join
+            the Hardware Security Working Group</a>.</p>
+      </div>
+      <table class="summary-table">
+        <tbody>
+          <tr id="Duration">
+            <th>End date</th>
+            <td>31 December 2016</td>
+          </tr>
+          <tr>
+            <th>Confidentiality</th>
+            <td>Proceedings are <a href="http://www.w3.org/2005/10/Process-20051014/comm.html#confidentiality-levels">Public</a>.
+            </td>
+          </tr>
+          <tr>
+            <th>Initial Chairs</th>
+            <td>
+              <ul>
+                <li>Virginie Galindo, Gemalto</li>
+                <li>David Rogers, Copper Horse</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>Initial Team Contacts<br />
+              (FTE %: 20)</th>
+            <td>Rigo Wenning</td>
+          </tr>
+          <tr>
+            <th>Usual Meeting Schedule</th>
+            <td>Teleconferences: Teleconferences to be held as required.
+              Task Forces may have separate calls that will not overlap with
+              others.<br />
+              Face-to-face: Up to 3 per year as required</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="goal">
+        <h2 id="goal">Goals</h2>
+        <p> The Hardware-Based Web Security Working Group will develop
+          recommendation-track documents that define a standard to provide
+          secure services for high security Web applications. </p>
+        <p> There are a number of use cases that this standard will enable,
+          including but not limited to the ability to encrypt and to decrypt
+          data using hardware based encryption modules, the ability to
+          manage credential information for hardware based security modules,
+          and the ability to access specific security sensitive services
+          offered by hardware tokens. Such security sensitive services may
+          include: </p>
+        <ol>
+          <li>Payments – transaction authorization</li>
+          <li>Identity verification</li>
+        </ol>
+      </div>
+      <div class="scope">
+        <h2 id="scope">Scope</h2>
+        <p> The Working Group will collect relevant use cases the open web
+          platform should address, identify technical gaps and determine use
+          cases that the standard needs to support. The Working Group will
+          use these to derive requirements and a possible architecture for
+          interaction between user agent and hardware based modules. One or
+          several recommendations will be developed, based on those
+          requirements. </p>
+        <p>Specification features shall be derived from requirements driven
+          by concrete use-cases. Success will be determined by the
+          implementation of features as defined by the recommendations.
+          Features that are not implemented due to time constraints can be
+          put in a non-normative "roadmap" document for future work. </p>
+        <p> Example features in scope for use-cases include: attesting the
+          presence of hardware module, enabling secure environment execution
+          for Javascript, using specific services enabled in hardware
+          module, hardware-based key usage, and cryptographic primitives.</p>
+        <p>The HaSec Working Group will produce specifications that target a
+          wide deployment. To do so, the Group should adopt, refine and when
+          needed, extend, existing practices and community-driven draft
+          specifications. Specifications should integrate well with Web
+          Applications, thus be developed in concert with Web Application
+          developers and the Web Application Security and HTML Working
+          Groups.</p>
+        <h3 id="success">Success Criteria</h3>
+        <p> If the Working Group successfully identifies at least one
+          candidate protocol or API in this manner, it may suggest a charter
+          for further work in this area.</p>
+        <p>The Group is successful if the following criteria are met:</p>
+        <ul>
+          <li>Participation via mailing list subscription and postings from
+            people representing various stakeholder communities, including
+            banks, payment industry, various legal and regulatory bodies
+            with mandates that are related to authentication, authorization
+            and secure transmission, hardware and software developers,
+            mobile operator companies, browser vendors and developers of
+            secure applications</li>
+          <li>Discussion of requirements and use cases and elaboration of a
+            NOTE on use cases and requirements for hardware based security
+            on the Web</li>
+          <li>Successfully engage and coordinate with Groups working on Web
+            Applications and their components as well as with other Security
+            Groups within W3C and beyond</li>
+          <li>Engage a dialog with the governmental identity systems that
+            require a higher level of security</li>
+        </ul>
+      </div>
+      <div id="deliverables">
+        <h2>Deliverables</h2>
+        <h3>Recommendation-Track Deliverables</h3>
+        <p>The working group will deliver at least the following:</p>
+        <ul>
+          <li><strong>Use-Case Document</strong>: This use-case document will define a finite
+            set of use-cases for secure execution environments and hardware 
+            token, accessed by Web applications, and recommend/discuss how 
+            user agent and hardware module should interact, taking into 
+            account the SOP and access control aspects.
+          </li>
+          <li><strong>Hardware-Based Web Security Standard Services:</strong> 
+          Commonly-used services such as cryptographic services, payment and 
+          legal identity based on hardware module should be made available 
+          to Web application developers via a set of standards to facilitate 
+          the operations detailed in the use case document.</li>
+        </ul>
+        <p>
+          A specification should make commonly-used cryptographic primitives using 
+          hardware-based security module available to Web application developers 
+          to facilitate the operations detailed in the use case document. 
+          This work should leverage on works already been discussed in the W3C 
+          Web Cryptography WG, WebApps WG, HTML WG, and IETF Web Security WG. 
+          The Specification on Hardware-Based Web Security Standard Services 
+          should take advantage of existing platform and operating-system 
+          cryptography libraries.
+        </p>
+        <p>
+          The specifications must contain a section detailing any known security 
+          implications for implementers, Web authors, and end users. The Hardware-Based 
+          Web Security WG will actively seek an open security review.
+        </p>
+        <h3>Other Deliverables</h3>
+        <p>The Working group will deliver at least the following
+          non-normative documents:</p>
+        <ul>
+          <li>Test suite for the Hardware-Based Web Security specification;
+          </li>
+          <li>Primer or Best Practice documents to support web developers
+            when designing applications dealing with the Hardware-Based Web
+            Security specification</li>
+        </ul>
+      </div>
+      <div id="dependencies">
+      <h2>Dependencies and Liaisons</h2>
+      <h3>Internal liaisons</h3>
+        <ul>
+          <li>HTML Working Group</li>
+          <li>Web Applications Working Group</li>
+          <li>Web Crypto Working Group</li>
+        </ul>
+      
+      <h3>External liaisons</h3>
+      <p>There are a number of external groups working in areas related to
+        the ones in scope for the HaSec WG. The Working Group should
+        determine whom to communicate with and then maintain communication
+        with them. The following groups are likely to be important: </p>
+      <ul>
+        <li>Fast Identity Online (FIDO)</li>
+        <li>Trusted Computing Group (TCG)</li>
+        <li>GlobalPlatform</li>
+        <li>European Telecommunications Standards Institute (ETSI)</li>
+      </ul>
+    </div>
+    <div class="participation">
+      <h2 id="participation">Participation</h2>
+      <p>Participation is open to W3C Members and invited experts. </p>
+      <p>In order to make rapid progress, the group MAY form several Task
+        Forces (TFs), each working on a separate topic. Group members are
+        free to join any number of TFs. </p>
+      <p>Participants are reminded of the <a href="http://www.w3.org/2005/10/Process-20051014/groups.html#good-standing">
+          Good Standing requirements</a> of the W3C Process. </p>
+    </div>
+    <div class="communication">
+      <h2 id="communication">Communication</h2>
+      <p>This group primarily conducts its technical work on the public
+        mailing list at <a href="mailto:public-hasec-wg@w3.org">public-webpayments-ig@w3.org</a>
+        (<a href="http://lists.w3.org/Archives/Public/public-hasec-wg/">archive</a>).
+See
+        <a href="http://www.w3.org/Mail/">W3C mailing list and archive usage
+          guidelines</a>. There is also a member-only list to be used for
+        administrative or member-confidential purposes at <a href="mailto:member-hasec-wg@w3.org">member-hasec-wg@w3.org</a>
+        (<a href="http://lists.w3.org/Archives/Member/member-hasec-wg/">archive</a>).</p>
+      <p>Information about the group (documents under review, face-to-face
+        meetings, etc.) is available from the <a href="/2015/hasec/">Web
+          Hardware Security Working Group home page</a>. </p>
+    </div>
+    <div class="decisions">
+      <h2 id="decisions">Decision Policy</h2>
+      <p>The group will aim to proceed by consensus. </p>
+      <p>Where there is consensus among the representatives of W3C members
+        in the group, it will be forwarded as a consensus position. Where
+        the group does not reach agreement, the different positions (whether
+        held by W3C members or other members of the group) will be
+        considered together. </p>
+      <p>All technical resolutions made by a meeting of the group are
+        provisional until two weeks after being published to the mailing
+        list. An objection made on the mailing list within two weeks of
+        publishing a decision has the same standing as if it were made at
+        the meeting. </p>
+    </div>
+    <div class="patent">
+      <h2 id="patentpolicy">Patent Disclosures </h2>
+      <p>The Hardware Security Working Group provides an opportunity to
+        share perspectives on the topic addressed by this charter. W3C
+        reminds Interest Group participants of their obligation to comply
+        with patent disclosure obligations as set out in <a shape="rect" href="/Consortium/Patent-Policy/#sec-Disclosure">Section
+          6</a> of the W3C Patent Policy. While the Interest Group does not
+        produce Recommendation-track documents, when Interest Group
+        participants review Recommendation-track specifications from Working
+        Groups, the patent disclosure obligations do apply.</p>
+      <p>For more information about disclosure obligations for this group,
+        please see the <a shape="rect" href="/2004/01/pp-impl/">W3C Patent
+          Policy Implementation</a>.</p>
+    </div>
+    <h2 id="about">About this Charter</h2>
+    <p>This charter has been created according to <a shape="rect" href="/Consortium/Process/groups#GAGeneral">section
+        6.2</a> of the <a shape="rect" href="/Consortium/Process">Process
+        Document</a>. In the event of a conflict between this document or
+      the provisions of any charter and the W3C Process, the W3C Process
+      shall take precedence.</p>
+    <hr style="margin-top:20px;clear:both" />
+    <address> WG Chair: Virginie Galindo (Gemalto)</address>
+    <address> HaSec Team Contact: Rigo Wenning </address>
+    <p class="copyright"><a shape="rect" href="/Consortium/Legal/ipr-notice#Copyright"
+        rel="Copyright">Copyright</a>© 2015 <a shape="rect" href="/"><acronym
+          title="World Wide Web Consortium">W3C</acronym></a> <sup>®</sup>
+      (<a shape="rect" href="http://www.csail.mit.edu/"><acronym title="Massachusetts Institute of Technology">MIT</acronym></a>
+      , <a shape="rect" href="http://www.ercim.eu/"><acronym title="European Research Consortium for Informatics and Mathematics">ERCIM</acronym></a>
+      , <a shape="rect" href="http://www.keio.ac.jp/">Keio</a>, <a href="http://ev.buaa.edu.cn/">Beihang</a>),
+      All Rights Reserved.</p>
+    <p>Last update: $Id: 2015-hasec-charter.html,v 1.1 2015/07/08 18:42:49
+      rigo Exp $</p>
+  </body>
+</html>
