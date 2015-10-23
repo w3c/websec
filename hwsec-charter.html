@@ -28,8 +28,8 @@
             src="http://www.w3.org/Icons/tands.gif" /></a> </p>
       <h1 id="title"><strong>DRAFT</strong><br /> 
         Hardware Security (HaSec) Working Group Charter</h1>
-        <p>DRAFT for dicussion. Comments and pull requests welcome on <a href="https://github.com/w3c/websec/">github</a>.</p>
-      <p class="mission"> The <strong>mission</strong> of the <a href="Overview.html">Hardware
+      <p>DRAFT for dicussion. Comments and pull requests welcome on <a href="https://github.com/w3c/websec/">github</a>.</p>
+<p class="mission"> The <strong>mission</strong> of the <a href="Overview.html">Hardware
           Security Working Group</a>, part of the <a href="../../Security/Activity.html">Security
           Activity</a>, is to define a set of Hardware-Based Web Security
         standard services providing Web Applications usage of secure
@@ -92,29 +92,64 @@
       </div>
       <div class="scope">
         <h2 id="scope">Scope</h2>
-        <p> The Working Group will collect relevant use cases the open web
-          platform should address, identify technical gaps and determine use
-          cases that the standard needs to support. The Working Group will
-          use these to derive requirements and a possible architecture for
-          interaction between user agent and hardware based modules. One or
-          several recommendations will be developed, based on those
-          requirements. </p>
-        <p>Specification features shall be derived from requirements driven
-          by concrete use-cases. Success will be determined by the
-          implementation of features as defined by the recommendations.
-          Features that are not implemented due to time constraints can be
-          put in a non-normative "roadmap" document for future work. </p>
-        <p> Example features in scope for use-cases include: attesting the
-          presence of hardware module, enabling secure environment execution
-          for Javascript, using specific services enabled in hardware
-          module, hardware-based key usage, and cryptographic primitives.</p>
-        <p>The HaSec Working Group will produce specifications that target a
-          wide deployment. To do so, the Group should adopt, refine and when
-          needed, extend, existing practices and community-driven draft
-          specifications. Specifications should integrate well with Web
-          Applications, thus be developed in concert with Web Application
-          developers and the Web Application Security and HTML Working
-          Groups.</p>
+        <p>
+          This Working Group’s scope is Hardware-Based Web Security standard services, enabling Web pages the use of secure services enabled by hardware modules (TEE, secure elements, and other secure enablers). The group may produce non-Recommendation track documents within this scope. Recommendations are limited to the Restricted Scope Items described below.
+        </p>
+        <p>
+          Protection against fingerprinting (tracking users through information about their Browser environment) must be a prime consideration in all APIs.
+        </p>
+        
+        <h3>Restricted Scope for Recommendation Track Deliverables</h3>
+        
+        <p>
+          The Working Group Scope for Recommendation Track Deliverables will be restricted during this Charter period to the following Restricted Scope Items. Recommendation deliverables may only be added if they clearly fall within a Restricted Scope Item here. Restricted Scope Items must be carefully described so the types of technologies needed for implementation are clear. The group must recharter to add new Restricted Scope Items.
+        </p>
+        
+        <ul>
+          <li>
+            <strong>Secure Hardware Discovery &amp; Attestation:</strong> Means of requesting access to a secure hardware component that satisfies some criteria, with user approval. Means of indicating to the requesting Web page who vouches for the Secure Hardware Component and what level of security is provided (e.g. digitally signed challenge; indication if Secure Hardware Component is isolated from Operating System, or just from Web Browser/UA).
+          </li>
+          <li>
+            <strong>Secure Hardware Crypto Key Discovery:</strong> Discovery of pre-provisioned, named, origin specific cryptographic keys for use with the Web Crypto API or an API provided by this WG.
+          </li>
+          <li>
+            <strong>Secure Hardware Crypto Key Management:</strong> Importing, creating, deleting keys for a particular origin. Working Group would define trust/permission model for use of this API.
+          </li>
+          <li>
+            <strong>Secure Hardware Crypto API:</strong> Maintenance or extension of the Web Crypto API after the first version. May also define other Crypto API specifically for Secure Hardware.
+          </li>
+          <li>
+            <strong>Secure Hardware Storage API:</strong> Origin specific storage and retrieval of data. This would prevent access by other applications on the device or even from the hardware depending on the level of security provided.
+          </li>
+          <li>
+            <strong>Secure Hardware IO:</strong> Means to ask for and obtain user input that is protected against compromised operating system or UA/Browser depending on the level provided. This could return a digitally signed (by the hardware component) response from the user.
+          </li>
+          <li>
+            <strong>Secure Worker:</strong> API to execute JavaScript or WebAssembly code in a Secure Hardware Component (allowing, but not necessarily requiring both). Like a Web Worker this would communicate to the calling Web page code using a message channel provided by the User Agent/Browser. A Secure Worker would not necessarily have the same APIs available as a Web Worker and the spec would define the type of data that may be passed. APIs used by Service Workers would be included by reference to specifications created under other Restricted Scope Items or other external sources. This Restricted Scope Item covers what is needed to create, execute and communicate with Secure Workers. Sharing Secure Workers could be restricted to be used from the context that created them, or could also be used from other contexts (tabs, iframes) from the same origin, or to other origins it specifies that it permits (like CORS).
+          </li>
+          <li>
+            <strong>Binding mechanism:</strong> Means to bind the result of a secure communication to a secure hardware to a certain context, origin or transaction and restrict the validity of bearer tokens and other secure vouchers accordingly. 
+          </li>
+          <li>
+            <strong>Identity semantics:</strong> Means to extract identity information from a secure hardware under control of the user, including the choice or creation of the subsequent data format made available via the API. 
+          </li>
+          <li>
+            Web payments access: Cooperate with the Web payments WG to allow access to payment related hardware via the hardware APIs developed within the HASEC Group. 
+          </li>
+        </ul>
+        
+        <h3>Web Services Interfaces</h3>
+        
+        <p>
+          Services defined in this Working Group (under other Restricted Scope Items) could also be exposed through Web Services to a nearby device or to the cloud. This could be accessed through the same APIs as those defined in other Restricted Scope Items, but where the implementation is remote rather than installed locally and the User Agent proxies the requests. In addition, where appropriate, each of the APIs defined for the other Restricted Scope Items could have an explicit Web Service version (e.g. restful APIs for services and Web Sockets as the message channel). That would allow the same services to be used outside the Web Browser context and also to be used in the Internet of Things.
+        </p>
+        
+        <h3>Out of Scope</h3>
+        
+        <p>
+          The Working Group does not define how hardware security is accomplished. It defines how to ask hardware security for basic services where a secure hardware environment is available. The group will also not define crypto algorithms.
+        </p>
+        
         <h3 id="success">Success Criteria</h3>
         <p> If the Working Group successfully identifies at least one
           candidate protocol or API in this manner, it may suggest a charter
@@ -141,45 +176,22 @@
       <div id="deliverables">
         <h2>Deliverables</h2>
         <h3>Recommendation-Track Deliverables</h3>
-        <p>The working group will deliver at least the following:</p>
-        <ul>
-          <li><strong>Use-Case Document</strong>: This use-case document will define a finite
-            set of use-cases for secure execution environments and hardware 
-            token, accessed by Web applications, and recommend/discuss how 
-            user agent and hardware module should interact, taking into 
-            account the SOP and access control aspects.
-          </li>
-          <li><strong>Hardware-Based Web Security Standard Services:</strong> 
-          Commonly-used services such as cryptographic services, payment and 
-          legal identity based on hardware module should be made available 
-          to Web application developers via a set of standards to facilitate 
-          the operations detailed in the use case document.</li>
-        </ul>
+
         <p>
-          A specification should make commonly-used cryptographic primitives using 
-          hardware-based security module available to Web application developers 
-          to facilitate the operations detailed in the use case document. 
-          This work should leverage on works already been discussed in the W3C 
-          Web Cryptography WG, WebApps WG, HTML WG, and IETF Web Security WG. 
-          The Specification on Hardware-Based Web Security Standard Services 
-          should take advantage of existing platform and operating-system 
-          cryptography libraries.
+          All Recommendations must have associated Use Cases describing the scenarios that the deliverable is intended to enable. These will be used to guide specification development. Use Cases are not normative interoperability specifications. They are informative, so do not need to be in a REC track document.
         </p>
+        
+        <h3>Recommendations Deliverables List</h3>
+        
         <p>
-          The specifications must contain a section detailing any known security 
-          implications for implementers, Web authors, and end users. The Hardware-Based 
-          Web Security WG will actively seek an open security review.
+          Deliverables approved by the Working Group will be listed the group’s homepage or gitHub repo linked from the homepage. Those deliverables will be listed under the Restricted Scope Item they conform to. Specific Deliverables, identifying their corresponding Restricted Scope Item, may also be listed in this Charter by rechartering. There are no specific deliverables identified at this time.
         </p>
-        <h3>Other Deliverables</h3>
-        <p>The Working group will deliver at least the following
-          non-normative documents:</p>
-        <ul>
-          <li>Test suite for the Hardware-Based Web Security specification;
-          </li>
-          <li>Primer or Best Practice documents to support web developers
-            when designing applications dealing with the Hardware-Based Web
-            Security specification</li>
-        </ul>
+        
+        <h3>Other Deliverables (not W3C Recommendations)</h3>
+        
+        <p>
+          The group may also develop other deliverables that are not Recommendations. These are not limited by the Restricted Scope.
+        </p>
       </div>
       <div id="dependencies">
       <h2>Dependencies and Liaisons</h2>
