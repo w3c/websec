@@ -148,21 +148,17 @@ The mission of the Web Authentication Working Group, in the Security Activity is
 
 Overall goals include obviating the use of shared secrets, i.e. passwords, as authentication credentials, facilitating multi-factor authentication support as well as hardware-based key storage while respecting the Same Origin Policy.
 </p>
-<p>These specifications will enable a number of use cases, including but not limited to:
 
-<ul>
-<li>Creation of per-relying party asymmetric key pairs
-<li>Registration of the public key with service provider, thus enabling subsequent cryptographic challenge-response interactions with the service provider to effect strong authentication 
-</ul></p>
 </section>
       <section id="scope" class="scope">
         <h2>Scope</h2>
         <p>
 The Working Group will determine use cases that the API needs to support and use these to derive requirements. Success will be determined by the implementation of API features as defined in this section of the charter.
 </p><p>
-API Features in scope are: entity authentication via a challenge-response protocol, improved authenticated session management, attestation formats, and signature message formats.
+API Features in scope are: 
+ (1) Requesting generation of an asymmetric key pair within a specific scope (e.g., an origin); (2) Proving that the browser has possession of a specific private key, where the proof can only be done within the scope of the key pair.
 </p><p>
-Dependencies exist on the Credential Management API in the W3C Web Application Security Working Group and improved authentication session management as defined by the IETF Token Binding Working Group.
+Dependencies exist on the Credential Management API in the W3C Web Application Security Working Group.
 </p><p>
 Note that the details of any user experience (such as prompts) will not be normatively specified, although they may be informatively specified for certain function calls.
 </p><p>
@@ -195,9 +191,8 @@ Comprehensive test suites should be developed for the specification to ensure in
         </h2>
 
 
-        <p>More detailed milestones and updated publication schedules are available on the <a href="https://www.w3.org/wiki/[groupname]/PubStatus">group publication status page</a>.</p>
+        <p>More detailed milestones and updated publication schedules are available on the <a href="https://www.w3.org/@@/PubStatus">group publication status page</a>.</p>
 
-        <p><i>Draft state</i> indicates the state of the deliverable at the time of the charter approval. <i>Expected completion</i> indicates when the deliverable is projected to become a Recommendation, or otherwise reach a stable state.</p>
 
         <div id="normative">
           <h3>
@@ -230,16 +225,14 @@ The specifications should take advantage of existing platform and operating-syst
             Other non-normative documents may be created such as:
           </p>
 
-
-
-	  
-
 Test suite for the Web Authentication API; Primer or Best Practice documents to support Web developers when designing applications utilizing the Web Authentication API.
 
           <ul>
             <li>Use case and requirement documents;</li>
             <li>Test suite and implementation report for the specification;</li>
             <li>Primer or Best Practice documents to support web developers when designing applications.</li>
+	    <li>Overall protocol design description and flow diagram, including reference to the protocol by which a web site interacts with a token by way of a
+browser, to accomplish the above API features.</p>
           </ul>
         </div>
       </section>
