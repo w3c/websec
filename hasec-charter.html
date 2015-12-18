@@ -29,12 +29,8 @@
       <h1 id="title"><strong>DRAFT</strong><br /> 
         Hardware Security (HaSec) Working Group Charter</h1>
       <p>DRAFT for dicussion. Comments and pull requests welcome on <a href="https://github.com/w3c/websec/">github</a>.</p>
-<p class="mission"> The <strong>mission</strong> of the <a href="Overview.html">Hardware
-          Security Working Group</a>, part of the <a href="../../Security/Activity.html">Security
-          Activity</a>, is to define a set of Hardware-Based Web Security
-        standard services providing Web Applications usage of secure
-        services enabled by hardware modules (TEE, secure elements, and
-        other secure enablers). </p>
+      <p class="mission"> The <strong>mission</strong> of the <a href="Overview.html">Hardware Security Working Group</a>, 
+      part of the <a href="../../Security/Activity.html">Security Activity</a>, is to define a set of Hardware-Based Web Security standard APIs providing Web Applications access to secure services enabled by hardware modules </p>
       <div class="noprint">
         <p class="join"><a href="https://www.w3.org/2004/01/pp-impl/@@number@@/join">Join
             the Hardware Security Working Group</a>.</p>
@@ -96,7 +92,7 @@
           This Working Group’s scope is Hardware-Based Web Security standard services, enabling Web pages the use of secure services enabled by hardware modules (TEE, secure elements, and other secure enablers). The group may produce non-Recommendation track documents within this scope. Recommendations are limited to the Restricted Scope Items described below.
         </p>
         <p>
-          Protection against fingerprinting (tracking users through information about their Browser environment) must be a prime consideration in all APIs.
+          Because web app using services providing some security sensitive functions may be sensitive to the users, this WG will take special care to make sure that the deliverables do not break user privacy and potential anonymity. As such, deliverables will take special care of fingerprinting and tracking threats. In addition, some mechanisms will be associated to make sure security functions will be used under the user control. 
         </p>
         
         <h3>Restricted Scope for Recommendation Track Deliverables</h3>
@@ -113,7 +109,7 @@
             <strong>Secure Hardware Crypto Key Discovery:</strong> Discovery of pre-provisioned, named, origin specific cryptographic keys for use with the Web Crypto API or an API provided by this WG.
           </li>
           <li>
-            <strong>Secure Hardware Crypto Key Management:</strong> Importing, creating, deleting keys for a particular origin. Working Group would define trust/permission model for use of this API.
+            <strong>Secure Hardware Crypto Key Management:</strong> Importing, creating, deleting keys for a particular origin. Working Group would define trust/permission model for use of cryptographic functions
           </li>
           <li>
             <strong>Secure Hardware Crypto API:</strong> Maintenance or extension of the Web Crypto API after the first version. May also define other Crypto API specifically for Secure Hardware.
@@ -122,7 +118,7 @@
             <strong>Secure Hardware Storage API:</strong> Origin specific storage and retrieval of data. This would prevent access by other applications on the device or even from the hardware depending on the level of security provided.
           </li>
           <li>
-            <strong>Secure Hardware IO:</strong> Means to ask for and obtain user input that is protected against compromised operating system or UA/Browser depending on the level provided. This could return a digitally signed (by the hardware component) response from the user.
+            <strong>Secure Hardware IO:</strong> Means to ask for and obtain user input that is protected against compromised operating system or UA/Browser depending on the level provided. This could return a digitally signed (by the hardware component) response from the user. 
           </li>
           <li>
             <strong>Secure Worker:</strong> API to execute JavaScript or WebAssembly code in a Secure Hardware Component (allowing, but not necessarily requiring both). Like a Web Worker this would communicate to the calling Web page code using a message channel provided by the User Agent/Browser. A Secure Worker would not necessarily have the same APIs available as a Web Worker and the spec would define the type of data that may be passed. APIs used by Service Workers would be included by reference to specifications created under other Restricted Scope Items or other external sources. This Restricted Scope Item covers what is needed to create, execute and communicate with Secure Workers. Sharing Secure Workers could be restricted to be used from the context that created them, or could also be used from other contexts (tabs, iframes) from the same origin, or to other origins it specifies that it permits (like CORS).
