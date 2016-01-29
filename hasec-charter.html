@@ -103,7 +103,7 @@
         
         <ul>
           <li>
-            <strong>Secure Hardware Discovery &amp; Attestation:</strong> Means of requesting access to a secure hardware component that satisfies some criteria, with user approval. Means of indicating to the requesting Web page who vouches for the Secure Hardware Component and what level of security is provided (e.g. digitally signed challenge; indication if Secure Hardware Component is isolated from Operating System, or just from Web Browser/UA).
+            <strong>Secure Hardware Discovery &amp; Attestation:</strong> Means of requesting access to a service that satisfies some criteria, with user approval. Means of indicating to the requesting Web page who vouches that the service satisfies the criteria (e.g. digitally signed challenge; indication if Secure Hardware Component is isolated from Operating System, or just from Web Browser/UA). The other restricted scope items could be satisfied through references to some existing spec along with a way to request and verify the level of security of the implementation.  For example, a secure worker restricted scope item could be satified by something like 1) reference to the Web Worker spec; 2) a means of requesting that a Worker be executed in an environment that cannot be tampered with even by the operating sytem and the response is signed by a trusted party verifying the implementation is available (with a nonce to prevent replay) and a token to use to request starting a worker in that environment; 3) extension to Web Workers creation to include passing the token; 4) API for the running Worker to ask environment to sign a challeng for attestation of the environment it is running in.
           </li>
           <li>
             <strong>Secure Hardware Crypto Key Discovery:</strong> Discovery of pre-provisioned, named, origin specific cryptographic keys for use with the Web Crypto API or an API provided by this WG.
@@ -121,7 +121,7 @@
             <strong>Secure Hardware IO:</strong> Means to ask for and obtain user input that is protected against compromised operating system or UA/Browser depending on the level provided. This could return a digitally signed (by the hardware component) response from the user. 
           </li>
           <li>
-            <strong>Secure Worker:</strong> API to execute JavaScript or WebAssembly code in a Secure Hardware Component (allowing, but not necessarily requiring both). Like a Web Worker this would communicate to the calling Web page code using a message channel provided by the User Agent/Browser. A Secure Worker would not necessarily have the same APIs available as a Web Worker and the spec would define the type of data that may be passed. APIs used by Service Workers would be included by reference to specifications created under other Restricted Scope Items or other external sources. This Restricted Scope Item covers what is needed to create, execute and communicate with Secure Workers. Sharing Secure Workers could be restricted to be used from the context that created them, or could also be used from other contexts (tabs, iframes) from the same origin, or to other origins it specifies that it permits (like CORS).
+            <strong>Secure Worker:</strong> API to execute JavaScript or WebAssembly code in a Secure Hardware Component (allowing, but not necessarily requiring both). Like a Web Worker this would communicate to the calling Web page code using a message channel provided by the User Agent/Browser. A Secure Worker would not necessarily have the same APIs available as a Web Worker and the spec would define the type of data that may be passed. APIs used by Secure Workers would be included by reference to specifications created under other Restricted Scope Items or other external sources. This Restricted Scope Item covers what is needed to create, execute and communicate with Secure Workers. Sharing Secure Workers could be restricted to be used from the context that created them, or could also be used from other contexts (tabs, iframes) from the same origin, or to other origins it specifies that it permits (like CORS).
           </li>
           <li>
             <strong>Binding mechanism:</strong> Means to bind the result of a secure communication to a secure hardware to a certain context, origin or transaction and restrict the validity of bearer tokens and other secure vouchers accordingly. 
@@ -150,9 +150,6 @@
         </p>
         
         <h3 id="success">Success Criteria</h3>
-        <p> If the Working Group successfully identifies at least one
-          candidate protocol or API in this manner, it may suggest a charter
-          for further work in this area.</p>
         <p>The Group is successful if the following criteria are met:</p>
         <ul>
           <li>Participation via mailing list subscription and postings from
@@ -189,7 +186,8 @@
         <h3>Other Deliverables (not W3C Recommendations)</h3>
         
         <p>
-          The group may also develop other deliverables that are not Recommendations. These are not limited by the Restricted Scope.
+          The group may also develop other deliverables that are not Recommendations. These are not limited by the Restricted Scope. 
+          As described above, these must be within the Working Group Scope. This could include use cases or best practices for using the APIs being developed or to explore possible future work in developing future versions of this Charter.
         </p>
       </div>
       <div id="dependencies">
