@@ -26,10 +26,10 @@
             src="http://www.w3.org/Icons/w3c_home" alt="W3C" /></a> <a shape="rect"
           href="http://www.w3.org/TandS/" class="domainlogo"><img alt="TandS Domain"
             src="http://www.w3.org/Icons/tands.gif" /></a> </p>
-      <h1 id="title"><strong>DRAFT</strong><br /> 
+      <h1 id="title"><strong>DRAFT</strong><br />
         Hardware Security (HaSec) Working Group Charter</h1>
       <p>DRAFT for dicussion. Comments and pull requests welcome on <a href="https://github.com/w3c/websec/">github</a>.</p>
-      <p class="mission"> The <strong>mission</strong> of the <a href="Overview.html">Hardware Security Working Group</a>, 
+      <p class="mission"> The <strong>mission</strong> of the <a href="Overview.html">Hardware Security Working Group</a>,
       part of the <a href="../../Security/Activity.html">Security Activity</a>, is to define a set of Hardware-Based Web Security standard APIs providing Web Applications access to secure services enabled by hardware modules </p>
       <div class="noprint">
         <p class="join"><a href="https://www.w3.org/2004/01/pp-impl/@@number@@/join">Join
@@ -94,13 +94,13 @@
         <p>
           Specifications like those to be produced by this group could impact user privacy and potential anonymity. Special care will be taken to avoid introducing fingerprinting and tracking threats in deliverables from this group. One mechanism to alleviate these potential problems is to place permission to use some functions under the user's control in a way in which the user understands the privacy implications. The group will seek review from the Privacy Interest Group.
        </p>
-        
+
         <h3>Restricted Scope for Recommendation Track Deliverables</h3>
-        
+
         <p>
           The Working Group Scope for Recommendation Track Deliverables will be restricted during this Charter period to the following Restricted Scope Items. Recommendation deliverables may only be added if they clearly fall within a Restricted Scope Item here. Restricted Scope Items must be carefully described so the types of technologies needed for implementation are clear. The group must recharter to add new Restricted Scope Items.
         </p>
-        
+
         <ul>
           <li>
             <strong>Secure Hardware Discovery &amp; Attestation:</strong> Means of requesting access to a service that satisfies some criteria, with user approval. Means of indicating to the requesting Web page who vouches that the service satisfies the criteria (e.g. digitally signed challenge; indication if Secure Hardware Component is isolated from Operating System, or just from Web Browser/UA). The other restricted scope items could be satisfied through references to some existing spec along with a way to request and verify the level of security of the implementation.  For example, a secure worker restricted scope item could be satified by something like 1) reference to the Web Worker spec; 2) a means of requesting that a Worker be executed in an environment that cannot be tampered with even by the operating sytem and the response is signed by a trusted party verifying the implementation is available (with a nonce to prevent replay) and a token to use to request starting a worker in that environment; 3) extension to Web Workers creation to include passing the token; 4) API for the running Worker to ask environment to sign a challeng for attestation of the environment it is running in.
@@ -115,7 +115,7 @@
             <strong>Secure Hardware Crypto API:</strong> Maintenance or extension of the Web Crypto API after the first version. May also define other Crypto API specifically for Secure Hardware.
           </li>
           <li>
-            <strong>Secure Hardware Storage API:</strong> Origin specific storage and retrieval of data. This would prevent access by other applications on the device or even from the hardware depending on the level of security provided.  This API could be restricted to be used only by a Secure Worker. It is expected the specification would reference existing Web platform storage specifications, not define new storage APIs. Additional APIs defined by the group could provide a way for the Secure Worker to determine whether stored data was already encrypted by the implementation so that the Secure Worker could decide whether to encrypt stored data itself.  The Working Group could decide to make that API also available for querying in Web pages about normal storage implementations outside Secure Workers (to determine if they are encrypted sufficiently).  
+            <strong>Secure Hardware Storage API:</strong> Origin specific storage and retrieval of data. This would prevent access by other applications on the device or even from the hardware depending on the level of security provided.  This API could be restricted to be used only by a Secure Worker. It is expected the specification would reference existing Web platform storage specifications, not define new storage APIs. Additional APIs defined by the group could provide a way for the Secure Worker to determine whether stored data was already encrypted by the implementation so that the Secure Worker could decide whether to encrypt stored data itself.  The Working Group could decide to make that API also available for querying in Web pages about normal storage implementations outside Secure Workers (to determine if they are encrypted sufficiently).
             </li>
           </li>
           <li>
@@ -125,31 +125,31 @@
             <strong>Secure Worker:</strong> API to execute JavaScript or WebAssembly code in a Secure Hardware Component (allowing, but not necessarily requiring both). Like a Web Worker this would communicate to the calling Web page code using a message channel provided by the User Agent/Browser. A Secure Worker would not necessarily have the same APIs available as a Web Worker and the spec would define the type of data that may be passed. APIs used by Secure Workers would be included by reference to specifications created under other Restricted Scope Items or other external sources. This Restricted Scope Item covers what is needed to create, execute and communicate with Secure Workers. Sharing Secure Workers could be restricted to be used from the context that created them, or could also be used from other contexts (tabs, iframes) from the same origin, or to other origins it specifies that it permits (like CORS).
           </li>
           <li>
-            <strong>Binding mechanism:</strong> Means to bind the result of a secure communication to a secure hardware to a certain context, origin or transaction and restrict the validity of bearer tokens and other secure vouchers accordingly. 
+            <strong>Binding mechanism:</strong> Means to bind the result of a secure communication to a secure hardware to a certain context, origin or transaction and restrict the validity of bearer tokens and other secure vouchers accordingly.
           </li>
           <li>
-            <strong>Identity semantics:</strong> Means to extract identity information from a secure hardware under control of the user, including the choice or creation of the subsequent data format made available via the API. 
+            <strong>Identity semantics:</strong> Means to extract identity information from a secure hardware under control of the user, including the choice or creation of the subsequent data format made available via the API.
           </li>
           <li>
-            Web payments access: Cooperate with the Web Payments WG to allow access to payment related hardware via the hardware APIs developed within the HASEC Group. 
+            Web payments access: Cooperate with the Web Payments WG to allow access to payment related hardware via the hardware APIs developed within the HASEC Group.
           </li>
           <li>
             Specify a common mechanism for accessing hardware tokens.
           </li>
         </ul>
-        
+
         <h3>Web Services Interfaces</h3>
-        
+
         <p>
           Services defined in this Working Group (under other Restricted Scope Items) could also be exposed through Web Services to a nearby device or to the cloud. This could be accessed through the same APIs as those defined in other Restricted Scope Items, but where the implementation is remote rather than installed locally and the User Agent proxies the requests. In addition, where appropriate, each of the APIs defined for the other Restricted Scope Items could have an explicit Web Service version (e.g. restful APIs for services and Web Sockets as the message channel). That would allow the same services to be used outside the Web Browser context and also to be used in the Internet of Things.
         </p>
-        
+
         <h3>Out of Scope</h3>
-        
+
         <p>
           The Working Group does not define how hardware security is accomplished. It defines how to ask hardware security for basic services where a secure hardware environment is available. The group will also not define crypto algorithms.
         </p>
-        
+
         <h3 id="success">Success Criteria</h3>
         <p>The Group is successful if the following criteria are met:</p>
         <ul>
@@ -177,16 +177,16 @@
         <p>
           Deliverables will be identified from among those listed in 2.1. All Recommendations must have associated use cases describing the scenarios that the deliverable is intended to enable. These will be used to guide specification development. use cases are not normative interoperability specifications. They are informative, so do not need to be in a REC track document.
         </p>
-        
-    
+
+
         <p>
           Deliverables approved by the Working Group will be listed on the group’s homepage or gitHub repo linked from the homepage. Those deliverables will be listed under the Restricted Scope Item in which they fit. Specific Deliverables, identifying their corresponding Restricted Scope Item, may also be listed in this Charter by rechartering. There are no specific deliverables identified at this time.
         </p>
-        
+
         <h3>Other Deliverables (not W3C Recommendations)</h3>
-        
+
         <p>
-          The group may also develop other deliverables that are not Recommendations. These are not limited by the Restricted Scope. 
+          The group may also develop other deliverables that are not Recommendations. These are not limited by the Restricted Scope.
           As described above, these must be within the Working Group Scope. This could include use cases or best practices for using the APIs being developed or to explore possible future work in developing future versions of this Charter.
         </p>
         <p>
@@ -202,7 +202,7 @@
           <li><a href="https://www.w3.org/2011/webappsec/">Web Application Security Working Group</a></li>
           <li><a href="https://www.w3.org/2012/webcrypto/">Web Cryptography Working Group</a></li>
         </ul>
-      
+
       <h3>External liaisons</h3>
       <p>There are a number of external groups working in areas related to
         the ones in scope for the HaSec WG. The Working Group should
@@ -258,7 +258,7 @@ See
         This Working Group operates under the <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/">W3C Patent Policy</a> (5 February 2004 Version). To promote the widest adoption of Web standards, W3C seeks to issue Recommendations that can be implemented, according to this policy, on a Royalty-Free basis.
       </p>
       <p>
-        The Hardware Security Working Group also provides an opportunity to share perspectives on the topic addressed by this charter and create best practices documents. Those are not subject to the Patent Policy. W3C reminds Participants of their obligation to comply with patent disclosure obligations as set out in <a shape="rect" href="/Consortium/Patent-Policy/#sec-Disclosure">Section 6</a> of the W3C Patent Policy for those non-Recommendation-Track deliverables. 
+        The Hardware Security Working Group also provides an opportunity to share perspectives on the topic addressed by this charter and create best practices documents. Those are not subject to the Patent Policy. W3C reminds Participants of their obligation to comply with patent disclosure obligations as set out in <a shape="rect" href="/Consortium/Patent-Policy/#sec-Disclosure">Section 6</a> of the W3C Patent Policy for those non-Recommendation-Track deliverables.
         </p>
       <p>
         For more information about disclosure obligations for this group, please see the <a shape="rect" href="/2004/01/pp-impl/">W3C Patent Policy Implementation</a>.
