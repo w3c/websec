@@ -166,22 +166,19 @@
             Hardware.
           </li>
           <li>
-            <strong>Secure Hardware Storage API:</strong> Origin
-            specific storage and retrieval of data. This would prevent
-            access by other applications on the device or even from the
-            hardware depending on the level of security provided.  This
-            API could be restricted to be used only by a Secure Worker.
-            The Hardware Security WG should not define new storage
-            mechanisms. This WG should (if it chooses to work on this
-            Restricted Scope item) propose secure enhancements to the
-            existing Web Platform storage APIs. Additional APIs defined
-            by the group could provide a way for the Secure Worker to
-            determine whether stored data was already encrypted by the
-            implementation so that the Secure Worker could decide
-            whether to encrypt stored data itself.  The Working Group
-            could decide to make that API also available for querying in
-            Web pages about normal storage implementations outside
-            Secure Workers (to determine if they are encrypted
+            <strong>Secure Hardware Storage API:</strong> Origin specific 
+            storage and retrieval of data. This would prevent access by other 
+            applications on the device or even from the hardware depending 
+            on the level of security provided. This API could be restricted 
+            to be used only by a Secure Worker. This API must use or enhance 
+            (an) existing Web Platform storage API(s), not create a new 
+            storage mechanism. Additional APIs defined by the group could 
+            provide a way for the Secure Worker to determine whether stored 
+            data was already encrypted by the implementation so that the 
+            Secure Worker could decide whether to encrypt stored data itself. 
+            The Working Group could decide to make that API also available 
+            for querying in Web pages about normal storage implementations 
+            outside Secure Workers (to determine if they are encrypted 
             sufficiently).
           </li>
           <li>
@@ -321,7 +318,7 @@
           future work in developing future versions of this Charter.
         </p>
         <p>
-          The Working Group will liaise woth the Web Payments Working
+          The Working Group will liaise with the Web Payments Working
           Group on web payments access. The expected non normative
           deliverables with Web Payments WG are use case and an
           architecture document, focusing on payment integration in the
