@@ -1,17 +1,13 @@
 Notes and Outputs from the W3C Hardware-based Secure Services Workshop, London  - 26th and 27th of April 2016.
 
 
-IRC minutes
-
-
-Live minutes were captured using W3C's IRC service.
-
+IRC minutes: Live minutes were captured on W3C's IRC, #hb-secure-services
 
 Day 1, 26th April 2016: https://www.w3.org/2016/04/26-hb-secure-services-minutes.html
 Day 2, 27th April 2016: https://www.w3.org/2016/04/27-hb-secure-services-minutes.html
 
 
-Use Case Discussions
+# Use Case Discussions
 
 
 Paul Waller, CESG. "Secure by default".  
@@ -246,13 +242,13 @@ Use case: A tangible hardware thing carrying individual or company identity toke
 
 
 --
-API:
+# APIs
 * Secure Credential Storage (elaborated below)
+* Transaction Confirmation API 
 
 
 
-
-Transaction Confirmation API - Champion: Sebastien
+# Transaction Confirmation API - Champion: Sebastien
 flipchart image: https://github.com/w3c/websec/blob/gh-pages/transaction_confirmation.jpg
 
 JavaScript API
@@ -438,7 +434,7 @@ Work in progress about verifyable attributes: https://www.websequencediagrams.c
 
 
 ----
-Secure Credential Storage and Management 
+# Secure Credential Storage and Management
 (Credential=cryptographic keys)
 
 
