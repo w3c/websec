@@ -13,7 +13,7 @@
 				</a>
 			</p>
 			<h1 property="dcterms:title" class="title" id="title">Hardware Based Secure Services features</h1>
-			<h2 property="bibo:subtitle" id="subtitle">Draft version - 29 April 2016</h2>
+			<h2 property="bibo:subtitle" id="subtitle">Draft version - 16 June 2016</h2>
 			<dl>
 				<dt>Latest version</dt>
 				<dd>
@@ -148,13 +148,35 @@
 
 		<p>This section contains the API description and the different rationale for the architecture and design choices.</p>
 		<p>Note : all use cases are envisaged with a pre-existing key set. 	</p>
-		<h3><span class="secno">4.1 </span>Usage</h3>
+		<h3><span class="secno">4.1 </span>Secure transaction interface</h3>
 			
 		<p>This subpart of the API is relying upon pre-existing keys.</p>
 
-		<h4><span class="secno">4.1.1 </span>Overview of the secure transaction confirmation </h4>
+		<div class="blockContent"><pre class="code"><code class="idl-code">
+[NoInterfaceObject]
+enum UVMMode { "passive", "presence", "os", "active" };
 
-		<p>Goal: to give some assurance to a remote entity that a transaction is confirmed. Confirm that what was sent was 
+[Exposed=(Window)]
+interface <dfn id="dfn-HBSS">HBSS</dfn> {
+	Promise&lt;any&gt; confirm(DOMString origin, 
+			DOMString NRMessage, 
+			UVMMode mode, 
+			ArrayBuffer[] issuingAuthorities);
+	Promise&lt;any&gt; deviceAuthentication(DOMString origin, 
+			BufferSource challenge, 
+			ArrayBuffer[] issuingAuthorities);
+	Promise&lt;any&gt; sign(DOMString origin, 
+			DOMString NRMessage, 
+			BufferSource data, 
+			UVMMode mode, 
+			ArrayBuffer[] issuingAuthorities);
+}
+</code></pre></div>
+		
+		<h4><span class="secno">4.1.1 </span>Description</h4>
+
+		<p>To give the assurance to a remote entity that a transaction is confirmed. 
+		Confirm that what was sent was 
 		communicated to the user, and what was displayed to the user is what was confirmed (What You See Is What You Confirm)<p>
 		<p>This first section covers the various usages of keys. These use cases are not highly sensitive in terms 
 		of transaction context confidentiality, which means that standard SOP rules are considered sufficient without any need
@@ -162,34 +184,12 @@
 		To avoid context swapping, it is mandatory that the non-repudiation message contains specific data for the requested
 		transaction with the requesting party, the purpose of the transaction and the date of the operation.</p>
 
-		<div class="blockContent"><pre class="code"><code class="idl-code">
-[NoInterfaceObject]
-enum UVMMode { "passive", "presence", "os", "active" };
-
-[Exposed=(Window)]
-interface HBSS {
-	Promise<any> confirm(DOMString origin, DOMString NRMessage, UVMMode mode, ArrayBuffer[] issuingAuthorities);
-	Promise<any> deviceAuthentication(DOMString origin, BufferSource challenge, ArrayBuffer[] issuingAuthorities);
-	Promise<any> sign(DOMString origin, DOMString NRMessage, BufferSource data, UVMMode mode, ArrayBuffer[] issuingAuthorities);
-}
-</code></pre></div>
+		<ul>
+			<li>Transaction confirmation: This operation is defined to request from the browser and underlying security capabilities to ensure that the context has been presented to the end-user and provide non-repudiation</li>
+			<li>Device authentication: This operation should be used when the relying party is trying to use a hardware key to authenticate the device without any user consent</li>
+			<li>Digital signature: This operation is defined to allow binary data signature.</li>
+		</ul>
 		
-		<h4>
-			<span class="secno">4.1.2 </span>Transaction confirmation</h4>
-
-		<p>This operation is defined to request from the browser and underlying security capabilities to ensure that the context 
-		has been presented to the end-user and provide non-repudiation</p>
-
-		<h4>
-			<span class="secno">4.1.3 </span>Device authentication</h4>
-
-		<p>This operation should be used when the relying party is trying to use a hardware key to authenticate the device without
-		any user consent</p>
-
-		<h4>
-			<span class="secno">4.1.4 </span>Digital signature</h4>
-
-		<p>This operation is defined to allow binary data signature.</p>
 		<p>Assumption: for many different reasons, complex data are not the right
 		format to get the end-user consent and confirm her/his acknowledgment: 
 		<ul>
@@ -208,7 +208,7 @@ interface HBSS {
 			<li>scoped: it should target a particular operation (type, amount, beneficiary ...) at a particular time</li>
 			<li>localized (UTF-8)</li>
 		</ul>
-		What is should not be:
+		What it should not be:
 		<ul>
 			<li>full list of terms and conditions - but it can be the operation to confirm that the end-user agree with a particular version of the terms and conditions</li>
 			<li>a generic operation request because it would not be scoped</li>
@@ -222,31 +222,155 @@ interface HBSS {
 		The data signature (i.e. PDF signature) is then a way to embed into the data the user consent.</p>
 		<p>SECURITY NOTE: it could occur that the binary data are altered before signature by a malware or javascript 
 		or even the browser. So the altered binary data would be successfully signed on the user agent side. But in this
-		case this is the relying party responsibility to check that the data and the context received are signed 
-		with the same key and at the same time. It MUST reject any attempt to submit binary signed data if they are not provided with 
-		a valid signed context.
+		case this is up to the relying party responsibility to check that the data and the context received are signed 
+		with the same key and and that the binary data are. It MUST reject any attempt to submit binary signed data if they are not provided with a valid signed context.
 		</p>
-		<p>Within this operation, the mode for the user verification method MUST NOT be "presence".</p>
-
-		<h3>
-			<span class="secno">4.2 </span>Secure Credential Storage</h3>
+		<p>Within this signature operation, the mode for the user verification method MUST NOT be neither <code>"passive"</code> nor <code>"presence"</code>.</p>
 
 		<h4>
-			<span class="secno">4.1.1 </span>General consideration</h4>
+			<span class="secno">4.1.2 </span>Data types</h4>
+		</h4>
+		
+		<dl>
+            <dt id="dfn-UVMMode"><code>UVMMode</code></dt>
+            <dd>
+              The type of user verification method mode prior to the key usage for the corresponding method. The <dfn id="dfn-RecognizedUVMMode">recognized user verification modes values</dfn>
+              are <code>"passive"</code>, <code>"presence"</code>, <code>"active"</code> and <code>"os"</code>. <code>"passive"</code> means that the no user interaction has been done, <code>"presence"</code> means that someone confirms the operation on the device, <code>"active"</code> means that the user has been actively authenticated and <code>"os"</code> means that the confirmation relies upon the OS either through PIN, fingerprint or any other end-user verification methods. It means that the user experience and process are the one provide by the OS itself including recovery procedures which may have their strengths own weaknesses.
+            </dd>
+          </dl>
+		<h4><span class="secno">4.1.3 </span>Methods and parameters</h4>
 
+		<h5><span class="secno">4.1.3.1 </span>The confirm method</h5>
+
+			<p>
+				  The <dfn id="dfn-method-confirm"><code>confirm</code></dfn>
+				  method returns a new Promise object that will display the <code>origin</code> and the 
+				  <code>NRMessage</code>, sign the hash of the <code>NRMessage</code> using
+				  the a key issued by one of the <code>issuingAuthorities</code></a> and by verifying the user according to the <code>UVMMode</code>. It must act
+				  as follows:
+			</p>
+			<ol>
+				<li>
+					<p>
+					  Let <var>mode</var> be the <code>mode</code> parameter
+					  passed to the <a href="#dfn-method-confirm">confirm</a> method.
+					</p>
+				</li>
+				<li>
+					<p>
+					  Let <var>issuingAuthorities</var>, <var>origin</var> and <var>NRMessage</var> be the result of cloning the data
+					  of the <code>issuingAuthorities</code>, <code>origin</code> and <code>NRMessage</code> parameters passed to the
+					  <a href="#dfn-method-confirm">confirm</a> method respectively. 
+					</p>
+				</li>
+				<li>
+					<p>
+					  If an error occurred, return a Promise rejected with
+					  the corresponding invalid parameter(s).
+					</p>
+				</li>
+				<li>
+					<p>
+					  Let <var>promise</var> be a new Promise.
+					</p>
+				</li>
+				<li>
+					<p>
+					  Return <var>promise</var> and asynchronously perform the remaining steps.
+					</p>
+				</li>
+				<li>
+					<p>
+					  If the following steps or referenced procedures say to
+					  <a href="#concept-throw">throw</a> an error,
+					  reject <var>promise</var> with
+					  the returned error and then
+					  <a href="#terminate-the-algorithm">terminate the algorithm.</a>
+					</p>
+				</li>
+				<li>
+					<p>
+					  The trusted UI should request the selection of a key by the user. The list proposed by the browser should rely upon those available
+					  in the various secure elements or requests the user to add the secure element (connected or contactless) and update the list correspondingly. The list should be
+					  filtered according to the <code>issuingAuthorities</code>: this parameter should include the array of the public keys of the issuing authorities. If this values is empty, no filtering should be applied. This step can be bypassed if the user has registered a prefered key for this origin, but then the key should be presented with the <code>NRMessage</code>. In this case, the browser should ensure that the prefered key is still acceptable in regards to the current operation  <code>issuingAuthorities</code> parameter. 
+					  At this step, if the user cancels the operation or if no key match the requirements, then let throw a <a href="#dfn-AbortError">AbortError</a>.
+					</p>
+				</li>
+				<li>
+					<p>
+					  Let present to the end-user the <code>origin</code> and the <code>NRMessage</code> and the user interface to either confirm the presence or authenticate according to the <code>UVMMode</code>. 
+					  At this step, if the user cancels the operation or if the user verification method fails too many times, then let throw a <a href="#dfn-AbortError">AbortError</a>.
+					</p>
+				</li>
+				<li>
+					<p>
+					  Let <var>signature</var> be the result of performing the signature
+					  operation with the hash of the <code>NRMessage</code>.
+					</p>
+				</li>
+				<li>
+					<p>
+					  Resolve <var>promise</var> with <var>signature</var> and, if applicable <var>key</var>the public part of key used to sign.
+					</p>
+				</li>
+			</ol>
+		<h5><span class="secno">4.1.3.1 </span>The deviceAuthentication method</h5>
+
+		<h5><span class="secno">4.1.3.1 </span>The sign method</h5>
+		
+		<h4><span class="secno">4.1.4 </span>Exceptions</h4>
 		<p>
-		... Relation to Web Crypto API: same API but with a different initialization engine...
-		</p>
+            The methods of the <a href="#dfn-HBSS">HBSS</a> interface return errors
+            by rejecting the returned promise with a predefined exception defined in ECMAScript
+            [<a href="#ECMA-262">ECMA-262</a>] or
+            <a href="#dfn-DOMException">DOMException</a>. The following predefined exceptions are
+            used: <dfn id="dfn-TypeError">TypeError</dfn>. The following DOMException types from
+            [<a href="#DOM4">DOM4</a>] are used:
+        </p>
+		<table>
+            <tbody>
+              <tr>
+                <th>Type</th>
+                <th>Message (optional)</th>
+              </tr>
+              <tr>
+                <td><dfn id="dfn-NotSupportedError"><code>NotSupportedError</code></dfn></td>
+                <td>The UVMMode is not supported</td>
+              </tr>
+              <tr>
+                <td><dfn id="dfn-AbortError"><code>AbortError</code></dfn></td>
+                <td>The operation was aborted</td>
+              </tr>
+              <tr>
+                <td><dfn id="dfn-SyntaxError"><code>SyntaxError</code></dfn></td>
+                <td>A required parameter was missing or out-of-range</td>
+              </tr>
+              <tr>
+                <td><dfn id="dfn-UnknownError"><code>UnknownError</code></dfn></td>
+                <td>The operation failed for an unknown transient reason (e.g. out of memory)</td>
+              </tr>
+              <tr>
+                <td><dfn id="dfn-DataError"><code>DataError</code></dfn></td>
+                <td>Data provided to an operation does not meet requirements</td>
+              </tr>
+              <tr>
+                <td><dfn id="dfn-OperationError"><code>OperationError</code></dfn></td>
+                <td>The operation failed for an operation-specific reason</td>
+              </tr>
+            </tbody>
+          </table>
+		<p>
+            When this specification says to
+            <dfn id="concept-throw">throw</dfn> an error, the user agent must
+            <a href="http://heycam.github.io/webidl/#dfn-throw">throw</a> an error as described in
+            [<a href="#WebIDL">WebIDL</a>]. When this occurs in a sub-algorithm,
+            this results in termination of execution of the sub-algorithm and all ancestor algorithms
+            until one is reached that explicitly describes procedures for catching exceptions.
+        </p>
+		
+		<h3><span class="secno">4.2 </span>Secure Credential Storage</h3>
 
-		<h4>
-			<span class="secno">4.1.2 </span>Key discovery</h4>
-
-		<p></p>
-
-		<h4>
-			<span class="secno">4.1.3 </span>Key issuance</h4>
-
-		<p></p>
+		Waiting for proposal
 
 		<h2><span class="secno">5. </span>Architectures and security requirements</h2>
 		
@@ -301,16 +425,61 @@ interface HBSS {
 		</ul>
 		</p>
 
+		<div id="dependencies" class="section">
+        <h3>6. Dependencies<span class="section-link">&nbsp;<a href="#dependencies">¶</a></span></h3>
+        <p>This specification relies on underlying specifications.</p>
+        <dl>
+          <dt>DOM</dt>
+          <dd>
+            <p>
+              A <a href="#dfn-conforming-implementation">conforming user agent</a> MUST support at
+              least the subset of the functionality defined in DOM4 that this specification relies
+              upon; in particular, it MUST support <code>Promises</code> and
+              <dfn id="dfn-DOMException">DOMException</dfn>.
+              [<a href="#DOM4">DOM4</a>]
+            </p>
+          </dd>
+          <dt>HTML</dt>
+          <dd>
+            <p>
+              A <a href="#dfn-conforming-implementation">conforming user agent</a> MUST support at
+              least the subset of the functionality defined in HTML that this specification relies
+              upon; in particular, it MUST support the
+              <a href="#dfn-ArrayBufferView">ArrayBufferView</a> typedef and the
+              <a href="#dfn-structured-clone">structured clone</a> algorithm.
+              [<a href="#HTML">HTML</a>]
+            </p>
+          </dd>
+          <dt>Web IDL</dt>
+          <dd>
+            <p>
+              A <a href="#dfn-conforming-implementation">conforming user agent</a> MUST be a
+              conforming implementation of the IDL fragments in this specification, as described in
+              the Web IDL specification. [<a href="#WebIDL">WebIDL</a>]
+            </p>
+          </dd>
+        </dl>
+      </div>
 		<h2><span class="secno">A. </span>References</h2>
 		
 		<h3><span class="secno">A.1 </span>Normative references</h3>
 
 		<dl>
+			<dt id="DOM4">DOM4</dt>
+			<dd>
+               <cite><a href="http://www.w3.org/TR/dom/">W3C DOM4</a></cite>,
+               A. van Kesteren, A. Gregor, Ms2ger, Alex Russell, Robin Berjon. W3C. 
+               <div class="ednote"><div class="ednoteHeader">Editorial note</div>A reference will be added to ECMAScript 6 once "Promises" are stable.</div>
+            </dd>
+			<dt id="ECMA-262">ECMA262</dt>
+			<dd>
+               <cite><a href="http://www.ecma-international.org/publications/standards/Ecma-262.htm">
+               ECMAScript 5th Edition</a></cite>, A. Wirfs-Brock, P. Lakshman et al.
+            </dd>
             <dt id="WebCryptoAPI">WebCryptoAPI</dt>
             <dd>
               <cite><a href="https://www.w3.org/TR/WebCryptoAPI/">W3C WebCryptoAPI</a></cite>, Ryan Sleevi, Mark Watson. W3C.
             </dd>
-		
 		
 		<h3><span class="secno">A.2 </span>Informative references</h3>
 		
