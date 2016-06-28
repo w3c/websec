@@ -304,8 +304,61 @@ interface <dfn id="dfn-HBSS">HBSS</dfn> {
 				</li>
 				<li>
 					<p>
-					  Let <var>signature</var> be the result of performing the signature
+					  Let <var>signature-nrmessage</var> be the result of performing the signature
 					  operation with the hash of the <code>NRMessage</code>.
+					</p>
+				</li>
+				<li>
+					<p>
+					  Resolve <var>promise</var> with <var>signature-nrmessage</var> and, if applicable <var>key</var>the public part of key used to sign.
+					</p>
+				</li>
+			</ol>
+		<h5><span class="secno">4.1.3.1 </span>The deviceAuthentication method</h5>
+
+					<p>
+				  The <dfn id="dfn-method-deviceAuthentication"><code>deviceAuthentication</code></dfn>
+				  method returns a new Promise object that will sign the hash of the <code>challenge</code> using
+				  the a key issued by one of the <code>issuingAuthorities</code></a>. It must act
+				  as follows:
+			</p>
+			<ol>
+				<li>
+					<p>
+					  Let <var>issuingAuthorities</var> and <var>origin</var>
+					  of the <code>issuingAuthorities</code> and <code>origin</code> parameters passed to the
+					  <a href="#dfn-method-deviceAuthentication">deviceAuthentication</a> method respectively. 
+					</p>
+				</li>
+				<li>
+					<p>
+					  If an error occurred, return a Promise rejected with
+					  the corresponding invalid parameter(s).
+					</p>
+				</li>
+				<li>
+					<p>
+					  Let <var>promise</var> be a new Promise.
+					</p>
+				</li>
+				<li>
+					<p>
+					  Return <var>promise</var> and asynchronously perform the remaining steps.
+					</p>
+				</li>
+				<li>
+					<p>
+					  If the following steps or referenced procedures say to
+					  <a href="#concept-throw">throw</a> an error,
+					  reject <var>promise</var> with
+					  the returned error and then
+					  <a href="#terminate-the-algorithm">terminate the algorithm.</a>
+					</p>
+				</li>
+				<li>
+					<p>
+					  Let <var>signature</var> be the result of performing the signature
+					  operation with the hash of the <code>challenge</code>. The signature should be performed with the first key that is issued by one of the <code>issuingAuthorities</code>. The requesting SP has to ensure that the corresponding key will not require a user verification method otherwise it will throw a <a href="#dfn-AbortError">AbortError</a>.
 					</p>
 				</li>
 				<li>
@@ -314,9 +367,80 @@ interface <dfn id="dfn-HBSS">HBSS</dfn> {
 					</p>
 				</li>
 			</ol>
-		<h5><span class="secno">4.1.3.1 </span>The deviceAuthentication method</h5>
 
 		<h5><span class="secno">4.1.3.1 </span>The sign method</h5>
+			<p>
+				  The <dfn id="dfn-method-sign"><code>sign</code></dfn>
+				  method returns a new Promise object that will display the <code>origin</code> and the 
+				  <code>NRMessage</code>, sign the hash of the <code>NRMessage</code> and the hash of the <code>data</code> using
+				  the a key issued by one of the <code>issuingAuthorities</code></a> and by verifying the user according to the <code>UVMMode</code>. It must act
+				  as follows:
+			</p>
+			<ol>
+				<li>
+					<p>
+					  Let <var>mode</var> be the <code>mode</code> parameter
+					  passed to the <a href="#dfn-method-sign">sign</a> method.
+					</p>
+				</li>
+				<li>
+					<p>
+					  Let <var>issuingAuthorities</var>, <var>origin</var>, <var>data</var> and <var>NRMessage</var> be the result of cloning the data
+					  of the <code>issuingAuthorities</code>, <code>origin</code>, <code>data</code> and <code>NRMessage</code> parameters passed to the
+					  <a href="#dfn-method-sign">sign</a> method respectively. 
+					</p>
+				</li>
+				<li>
+					<p>
+					  If an error occurred, return a Promise rejected with
+					  the corresponding invalid parameter(s).
+					</p>
+				</li>
+				<li>
+					<p>
+					  Let <var>promise</var> be a new Promise.
+					</p>
+				</li>
+				<li>
+					<p>
+					  Return <var>promise</var> and asynchronously perform the remaining steps.
+					</p>
+				</li>
+				<li>
+					<p>
+					  If the following steps or referenced procedures say to
+					  <a href="#concept-throw">throw</a> an error,
+					  reject <var>promise</var> with
+					  the returned error and then
+					  <a href="#terminate-the-algorithm">terminate the algorithm.</a>
+					</p>
+				</li>
+				<li>
+					<p>
+					  The trusted UI should request the selection of a key by the user. The list proposed by the browser should rely upon those available
+					  in the various secure elements or requests the user to add the secure element (connected or contactless) and update the list correspondingly. The list should be
+					  filtered according to the <code>issuingAuthorities</code>: this parameter should include the array of the public keys of the issuing authorities. If this values is empty, no filtering should be applied. This step can be bypassed if the user has registered a prefered key for this origin, but then the key should be presented with the <code>NRMessage</code>. In this case, the browser should ensure that the prefered key is still acceptable in regards to the current operation  <code>issuingAuthorities</code> parameter. 
+					  At this step, if the user cancels the operation or if no key match the requirements, then let throw a <a href="#dfn-AbortError">AbortError</a>.
+					</p>
+				</li>
+				<li>
+					<p>
+					  Let present to the end-user the <code>origin</code> and the <code>NRMessage</code> and the user interface to either confirm the presence or authenticate according to the <code>UVMMode</code>. 
+					  At this step, if the user cancels the operation or if the user verification method fails too many times, then let throw a <a href="#dfn-AbortError">AbortError</a>.
+					</p>
+				</li>
+				<li>
+					<p>
+					  Let <var>signature-nrmessage</var> be the result of performing the signature
+					  operation with the hash of the <code>NRMessage</code> and <var>signature-data</var> be the result of performing the signature operation with the hash of the <var>data</var>.
+					</p>
+				</li>
+				<li>
+					<p>
+					  Resolve <var>promise</var> with <var>signature-nrmessage</var> and, if applicable <var>key</var>the public part of key used to sign.
+					</p>
+				</li>
+			</ol>
 		
 		<h4><span class="secno">4.1.4 </span>Exceptions</h4>
 		<p>
@@ -374,24 +498,29 @@ interface <dfn id="dfn-HBSS">HBSS</dfn> {
 
 		<h2><span class="secno">5. </span>Architectures and security requirements</h2>
 		
-		<p>These samples are provided to split the responsibilities of each vendor / software providers.
+		<p>These requirements are provided to split the responsibilities of each vendor / software providers for the different implementation environments </p>
 
 		<h3><span class="secno">5.1 </span>PC-like environments</h3>
 
 		<p>It is typically the environment where secure elements - either smartcards with readers or usb tokens - are used 
 		with middleware through PKCS#11 or Microsoft Minidriver. In this architecture, the trusted UI is:
 		<ul>
-			<li>Either the middleware for PKCS#11</li>
-			<li>Microsoft operating system which manage the secure element user interface</li>
+			<li>Either the middleware when the signature is requested through PKCS#11 library</li>
+			<li>Or the Microsoft Windows operating system which manage the secure element user interface for CSP/CNG API</li>
 		</ul>
+		<p>In this implementation, it means that the origin of the request and the non repudiation message
+		should be displayed by the middleware or the Windows OS in a trusted way. </p>
 		
-		In terms of user experience, browser implementers will be invited to support a mechanism of white and black lists of 
-		authorized domains related to each key, so that an end-user could reject any request outside a specific origin for a particular key
-		
-		NOTE: it would require a Mini driver interface update to allow the Non Repudiation message to be provided to the API,
-		instead of a basic data to sign.
+		<p>To limit the capability of a website to request the usage of the cryptographic API,
+		browser implementers SHOULD support a mechanism of white / black lists of 
+		authorized domains (like camera access), so that an end-user could reject 
+		any request from an unknown origin.
 		</p>
-		
+		<p>
+		NOTE: transaction confirmation could be supported by providing the merge of the origin and the
+		non repudiation message as the data to sign for existing API. It MUST be displayed displayed to the end-user with the user verification method input.
+		But signature operation will require a interface definition new method for both PKCS#11 and CSP/CNG
+		</p>
 
 		<h3><span class="secno">5.2 </span>Mobile environments</h3>
 
@@ -488,6 +617,12 @@ interface <dfn id="dfn-HBSS">HBSS</dfn> {
             <dd>
               <cite><a href="http://msdn.microsoft.com/en-us/library/aa380256.aspx">Cryptography Reference</a></cite>, Microsoft Corporation.
             </dd>
+
+            <dt id="OPENTEE">OpenTEE</dt>
+            <dd>
+              <cite><a href="https://github.com/Open-TEE/project">OpenTEE project</a></cite>.
+            </dd>
+			
             <dt id="PKCS11">PKCS#11</dt>
             <dd>
               <cite><a href="https://www.emc.com/emc-plus/rsa-labs/standards-initiatives/pkcs-11-cryptographic-token-interface-standard.htm">PKCS #11: CRYPTOGRAPHIC TOKEN INTERFACE STANDARD</a></cite>, RSA Laboratories/EMC.
@@ -498,13 +633,13 @@ interface <dfn id="dfn-HBSS">HBSS</dfn> {
               <cite><a href="http://www.pcscworkgroup.com/">PCSC, standard for integrating smart cards and smart card readers</a></cite>, PC/SC Workgroup.
             </dd>
 			
+            <dt id="CryptoAPI">Replacement for &lt;keygen&gt;</dt>
+            <dd>
+              <cite><a href="https://w3ctag.github.io/client-certificates/">Keygen and Client Certificates</a></cite>, W3C TAG.
+            </dd>
             <dt id="GP_TEE">Trusted Execution Environment</dt>
             <dd>
               <cite><a href="http://www.globalplatform.org/specificationsdevice.asp">Trusted Execution Environment</a></cite>, Global Platform.
-            </dd>
-            <dt id="OPENTEE">OpenTEE</dt>
-            <dd>
-              <cite><a href="https://github.com/Open-TEE/project">OpenTEE project</a></cite>.
             </dd>
 		</dl>
 	</body>
