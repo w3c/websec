@@ -13,7 +13,7 @@
 				</a>
 			</p>
 			<h1 property="dcterms:title" class="title" id="title">Hardware Based Secure Services features</h1>
-			<h2 property="bibo:subtitle" id="subtitle">Draft version - 16 June 2016</h2>
+			<h2 property="bibo:subtitle" id="subtitle">Draft version - 28 June 2016</h2>
 			<dl>
 				<dt>Latest version</dt>
 				<dd>
@@ -60,7 +60,7 @@
 		The open web platform is running on diverse devices, such as tablet, PC, smart phone, and cars systems. Driven by an expectation from users and service providers, a majority of those devices are embedding some technology allowing to offer some secure services. One can think about secure chips such as embedded secure element, TPM, UICC, or proximity smart card, using BLE or NFC communication means. Another technology getting traction is the Trusted Execution environment. Both type of technology are offering some advantages in terms of secure execution and storage. Secure element and TEE can offer some services, which are names secure services, as their merits in term of integrity and confidentiality are improved. 
 		</p>
 		<p>
-		This document is proposing some use cases where the web apps could benefit from those secure services. In addition, in order to demonstrate the feasibility of such secure services, the hardware based secure services community group has chosen two services, for which some API will be suggested and some protoypes will be developed. Those services are the secure transaction confirmation and the secure credential storage. 
+		This document is proposing some use cases where the web apps could benefit from secure services. In addition, in order to demonstrate the feasibility of such secure services, the Hardware Based Secure Services Community Group has identified two services, for which technical rationale and API will be detailed. In addition some protoypes, testing the reliablility of teh architecture, will be developed. The elected secure services services are (1) secure transaction confirmation and (2) secure credential storage.
 		</p>
 
 		<h3><span class="secno">1.1 </span>Terminology</h3>
@@ -119,23 +119,28 @@
 			
 		<h2><span class="secno">3. </span>Use cases</h2>
 		<p>
-			QUESTION: Need to provide here names of well-known customers to help pushing the standards to browser makers?
-		</p>
-		<p>
-			Several services, requiring some security guarantees, thus being deployed on hardware based technology, are already existing in native environments. 
+			The hardware based technology is already used in a number of use cases, which are particularly sensitive to security attacks. Those domains covers financial and telecommunication industry, government and corporate services. Hardware based technology is used in those domains in specific cases such as managing authentication of the user or of the device, capturing user consent, document signature... The following use cases are detailing how hardware based technology are used today in different areas, in native environment. One should read those use cases as attractive for in web application scenario.
 		</p>
 		
-		<h3><span class="secno">3.1 </span>Governments with eID for digital public services access and usage</h3>
+		<h3><span class="secno">3.1 </span>National electronic identity for accessing public services. </h3>
 		<p>
-		<ul>
-			<li><a href="https://e-estonia.com/">eEstonia</a></li>
-			<li>Belgium eID with <a href="http://eid.belgium.be/en/available_eid_applications/online_government_applications/toepassingen_voor_burgers">eService ecosystem</a></li>
-			<li>Sweden: <a href="http://www.skatteverket.se/servicelankar/otherlanguages/inenglish/individualsandemployees/livinginsweden/idcard/electronicidentificationwiththeidcard.4.3810a01c150939e893f1dab6.html">Tax Agency card</a>, <a href="https://cve.trust.telia.com/TeliaElegNG/">Telia eID</a></li>
-			<li>Norway: <a href="http://eid.difi.no/en/id-porten">ID-porten</a></li>
-			<li>Any other middleware based local solution</li>
-		</ul></p>
-		<h3><span class="secno">3.2 </span>Banks with smartcards for corporate operations signature</h3>
+		As of today, a large number of european countries have deployed electronic identity, and do offer their citizen the access to to governement services such as paying tax, managing pensions. Eaxmples of countries and associated systems are : Estonia with eEstonia, Belgium eID with eService ecosystem, Sweden with a Tax Agency card and Telia eID, Norway with its ID-porten. All the deployed solutions are relying on middleware dpeloyment on citizen devices. </p>
+		<p>
+		Whatever is the service accessed, it is expected by the citizen that he or she owns a hardware based token, that will carry its electronic identity. This identity (most of the time a certificate for a key pair) will be used to authenticate the user and sign some transaction he or she will be performing on the government portal. The native environment, installed on the citizen device, or on the public service office is able to access to the hardware token, thanks to a physical link (USB, ISO, BLE, ...).
+		</p>
+		<h3><span class="secno">3.2 </span>Banks with smartcards for corporate operations signature</h3>		
 		<p>To request to a bank</p>
+		<h4><span class="secno">3.2.1 </span>French ecosystem</h4>
+		<p>
+			In France, a trusted issuing certificate authorities list is maintained by the Finances Ministry in order to manage corporate identities 
+			Certificate authorities used to manage the face to face identity verification and deliver smartcards or USB tokens.
+			This ecosystem is also used by the French corporate banks to manage
+			many regulatory related tasks and also to enforce strong authentication but also digital signature, for example to confirm the file containing the widthdrawal of the salary for a company. 
+			And issuing authentication credential is not acceptable according to the
+			existing risks they are facing in terms cyber attacks: combined social engineering, phishing, stolen TAN...
+			Banks are looking to cover the transaction risk by using the right credential to adapt the user experience to the risk, which includes also the strongest level for the highest risk. And now without the capability to rely upon Secure Elements in the browser, they currently facing a major issue to replace the existing identity scheme delegation which was providing a strong authentication and signature credential.
+		</p>
+
 		<h3><span class="secno">3.3 </span>Transparent device authentication for online payment confirmation on 3DSecure scheme</h3>
 		<p>To be completed by Brian (Visa Europe)</p>
 
@@ -500,7 +505,13 @@ interface <dfn id="dfn-HBSS">HBSS</dfn> {
 		
 		<p>These requirements are provided to split the responsibilities of each vendor / software providers for the different implementation environments </p>
 
-		<h3><span class="secno">5.1 </span>PC-like environments</h3>
+		<h3><span class="secno">5.1 </span>Attestations</h3>
+		<p>
+			Both the Secure Credential Storage and the TrustedUI should be securely identified 
+			by attestation.
+		</p>
+
+		<h3><span class="secno">5.2 </span>PC-like environments</h3>
 
 		<p>It is typically the environment where secure elements - either smartcards with readers or usb tokens - are used 
 		with middleware through PKCS#11 or Microsoft Minidriver. In this architecture, the trusted UI is:
@@ -522,7 +533,7 @@ interface <dfn id="dfn-HBSS">HBSS</dfn> {
 		But signature operation will require a interface definition new method for both PKCS#11 and CSP/CNG
 		</p>
 
-		<h3><span class="secno">5.2 </span>Mobile environments</h3>
+		<h3><span class="secno">5.3 </span>Mobile environments</h3>
 
 		<p>In mobile environments, Secure Elements are either:
 		<ul>
@@ -533,19 +544,19 @@ interface <dfn id="dfn-HBSS">HBSS</dfn> {
 		Secure Elements and provide an API for third party applications including browsers. 
 		</p>
 		
-		<h4><span class="secno">5.2.1 </span>Generic mobile environments</h4>
+		<h4><span class="secno">5.3.1 </span>Generic mobile environments</h4>
 		<p>
 		In this situation, the trusted user interface should be part of the Operating System, interacting with
 		the Secure Credential Storage
 		</p>
 
-		<h4><span class="secno">5.2.2 </span>Mobile environments with Trusted Execution Environment</h4>
+		<h4><span class="secno">5.3.2 </span>Mobile environments with Trusted Execution Environment</h4>
 		<p>
 		In this situation, the browser is a trusted app and the trusted UI is relying upon the existing
 		TEE functions (See [GP_TEE])
 		</p>
 		
-		<h3><span class="secno">5.3 </span>About implementations considerations</h3>
+		<h3><span class="secno">5.4 </span>About implementations considerations</h3>
 		
 		<p>Implementation into a mobile phone will require:
 		<ul>
@@ -555,7 +566,7 @@ interface <dfn id="dfn-HBSS">HBSS</dfn> {
 		</p>
 
 		<div id="dependencies" class="section">
-        <h3>6. Dependencies<span class="section-link">&nbsp;<a href="#dependencies">¶</a></span></h3>
+        <h3>6. Dependencies</span></h3>
         <p>This specification relies on underlying specifications.</p>
         <dl>
           <dt>DOM</dt>
