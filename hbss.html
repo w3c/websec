@@ -188,7 +188,7 @@ interface <dfn id="dfn-HBSS">HBSS</dfn> {
 		<h4><span class="secno">4.1.2 </span>Secure transaction API details</h4>
 
 		<p>The secure transaction confirmation aims to give the assurance to a remote entity that a transaction is confirmed by the user. Its value relies in the fact that the requested confirmation was sent to the user, was displayed to the user with no alteration and that the user confirmed exactly what was displayed. this is the 'What You See Is What You Confirm' principle.<p>
-		<p>This first section covers the various usages of keys. These use cases are not highly sensitive in terms 
+		<p>This section covers the various usages of keys. The use cases (transaction confirmation, signature, device authentication) are not highly sensitive in terms 
 		of transaction context confidentiality, which means that standard SOP rules are considered sufficient without any need
 		for end-to-end encryption (like secure messaging). <br/>
 		To avoid context swapping, it is mandatory that the non-repudiation message contains specific data for the requested
@@ -228,12 +228,9 @@ interface <dfn id="dfn-HBSS">HBSS</dfn> {
 		Therefore, both	the context and the data should be signed at the same time with the same key. It is then up to the relying 
 		party to ensure	that the data associated with the context are both signed and they match the initial request
 		The user has accepted the context (and liability may rely only on that context in regards to this cryptographic operation) 
-		But thanks to that he/she has produced with its own cryptographic key the binary data signature. 
 		The data signature (i.e. PDF signature) is then a way to embed into the data the user consent.</p>
-		<p>SECURITY NOTE: it could occur that the binary data are altered before signature by a malware or javascript 
-		or even the browser. So the altered binary data would be successfully signed on the user agent side. But in this
-		case this is up to the relying party responsibility to check that the data and the context received are signed 
-		with the same key and and that the binary data are. It MUST reject any attempt to submit binary signed data if they are not provided with a valid signed context.
+		by producing with its own cryptographic key the binary data signature. 
+		<p>SECURITY NOTE: it could occur that the binary data are altered before signature by a malware or javascript or any software attacking the user agent. in such scenario, the altered binary data would be successfully signed on the user agent side. It is up to the relying party to check that the binary data and the context received are signed with the same key. In addition, the relying party, as part of its security policy, will be able to reject any attempt to submit binary signed data if they are not provided with a valid signed context.
 		</p>
 		<p>Within this signature operation, the mode for the user verification method MUST NOT be neither <code>"passive"</code> nor <code>"presence"</code>.</p>
 
