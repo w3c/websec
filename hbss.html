@@ -4,6 +4,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 			<title>Hardware Based Secure Service features</title>
 			<link href="https://www.w3.org/community/src/css/spec/cg-draft.css" rel="stylesheet" type="text/css" charset="utf-8">
+			<link rel="stylesheet" href="https://www.w3.org/TR/WebIDL/WebIDL.css" type="text/css">
 	</head>
 	<body>
 		<div class="head">
@@ -13,7 +14,7 @@
 				</a>
 			</p>
 			<h1 property="dcterms:title" class="title" id="title">Hardware Based Secure Services features</h1>
-			<h2 property="bibo:subtitle" id="subtitle">Draft version - 30 June 2016</h2>
+			<h2 property="bibo:subtitle" id="subtitle">Draft version - 7 July 2016</h2>
 			<dl>
 				<dt>Latest version</dt>
 				<dd>
@@ -21,6 +22,7 @@
 				</dd>
 				<dt>Editor</dt>
 				<dd>Sebastien Bahloul / Morpho</dd>
+				<dd>Aurelien Couvert / Gemalto</dd>
 			</dl>
 			<p class="copyright">Copyright © 2016 the Contributors to the Hardware Based Secure Service CG Specification, 
 			published by the  <a href="https://www.w3.org/community/hb-secure-services/">Hardware Based Secure Services</a> 
@@ -163,7 +165,13 @@
 
 		<h4><span class="secno">4.1.1 </span>Secure transaction API</h4>
 
-		<div class="blockContent"><pre class="code"><code class="idl-code">
+		<div class="block">
+			<div class="blockTitleDiv">
+				<span class="blockTitle">Web IDL</span>		
+			</div>
+			<div class="blockContent">
+				<pre class="code">
+					<code class="idl-code">
 [NoInterfaceObject]
 enum UVMMode { "passive", "presence", 
 "os", "active" };
@@ -183,7 +191,10 @@ interface <dfn id="dfn-HBSS">HBSS</dfn> {
 			UVMMode mode, 
 			ArrayBuffer[] issuingAuthorities);
 }
-</code></pre></div>
+					</code>
+				</pre>
+			</div>
+		</div>
 		
 		<h4><span class="secno">4.1.2 </span>Secure transaction API details</h4>
 
@@ -500,9 +511,196 @@ interface <dfn id="dfn-HBSS">HBSS</dfn> {
         </p>
 		
 		<h3><span class="secno">4.2 </span>Secure Credential Storage</h3>
+		
+		<p>This subpart describes a JavaScript API for discovering named, origin-specific pre-provisioned cryptographic keys stored into hardware secure device to be used with the Web Cryptography API. Pre-provisioned keys are keys which have been made available to the UA by means other than the generation, derivation, importation and unwrapping functions of the Web Cryptography API. Origin-specific keys are keys that are available only to a specified origin. Named keys are identified by a name assumed to be known to the origin in question and provisioned with the key itself.</p>
+		
+		<h4><span class="secno">4.2.1 </span>Secure Credential Storage API</h4>
+		
+		<p>This API relies on the existing but enhanced WebCrypto API to support key naming, as proposed in WebCrypto Key Discovery note, but also defines the notion of HardwareSecureDevice which represents any form of hardware cryptographic device acting as cryptographic provider, in a similar way of what JAVA defines, to bring new capabilities to the SubtleCrypto interface and in particular the persistent and secure storage of keys.</p>
+		
+		<h5><span class="secno">4.2.1.1 </span>Window interface</h5>
+		
+		<p>Window interface is enhanced to expose a the hardware secure device management service.</p>
+		
+		<div class="block">
+			<div class="blockTitleDiv">
+				<span class="blockTitle">Web IDL</span>		
+			</div>
+			<div class="blockContent">
+				<pre class="code">
+					<code class="idl-code">
+[NoInterfaceObject]
+interface GlobalHardwareSecureDeviceManager {
+  readonly  attribute  HardwareSecureDeviceManager  hsdm;
+};
 
-		Waiting for proposal
+Window implements GlobalHardwareSecureDeviceManager;
+WorkerGlobalScope implements GlobalHardwareSecureDeviceManager;
+					</code>
+				</pre>
+			</div>
+		</div>
+		
+		<h5><span class="secno">4.2.1.2 </span>HardwareSecureDeviceManager interface</h5>
+		
+		<p>The HardwareSecureDeviceManager interface provides access to hardware secure devices and is the source of events notifying their presences. The notion of presence is important because an hardware secure device MAY not always be stucked in the same environment (like an embedded secure element, a TEE...) but MAY be shared with severals (like with a Smartcard, an NFC card...).</p>
+		
+		<div class="block">
+			<div class="blockTitleDiv">
+				<span class="blockTitle">Web IDL</span>		
+			</div>
+			<div class="blockContent">
+				<pre class="code">
+					<code class="idl-code">
+[Exposed=(Window,Worker)]
+interface HardwareSecureDeviceManager : EventTarget {
+    readonly  attribute  HardwareSecureDevice[]  hardwaresecuredevices;
+              attribute  EventHandler?           onHardwareSecureDevicePresent;
+              attribute  EventHandler?           onHardwareSecureDeviceRemoval;
+};
+					</code>
+				</pre>
+			</div>
+		</div>
+		
+		<p>The attribute hardwaresecuredevices represents the list of hardware secure devices presents and acccessible by UA at the time the attribute is accessed. UA is in charge to add or remove element in that array depending of the evolution of the environment in term of presence and absence of hardware secure device.User MAY define two event listeners (onHardwareSecureDevicePresent and onHardwareSecureDeviceRemoval) which will be called by UA to notify the user of the ongoing changes of the environment in term of presence or absence of hardware secure element.</p>
 
+		<h5><span class="secno">4.2.1.3 </span>HardwareSecureDevice interface</span></h5>
+		
+		<p>The HardwareSecureDevice interface extends the SubtleCrypto interface providing a different implementation of one or more SubtleCrypto methods in order to let the hardware device handle the cryptographic operation internaly instead of the UA in software. It can be viewed as a cryptographic provider bringing cryptographic capabilities of an hardware device to the WebCrypto API in a transparrent maner. UA MAY defines other classes extending the HardwareSecureDevice one representing different type of hardware secure device with specific implementation. One implementation COULD be using PKCS#11 as transport layer to communicate with a compatible hardware securedevices</p>
+
+		<div class="block">
+			<div class="blockTitleDiv">
+				<span class="blockTitle">Web IDL</span>		
+			</div>
+			<div class="blockContent">
+				<pre class="code">
+					<code class="idl-code">
+[Exposed=(Window,Worker)]
+interface HardwareSecureDevice : SubtleCrypto {
+	readonly  attribute  DOMString     name;
+	readonly  attribute  boolean       ispresent;
+};
+					</code>
+				</pre>
+			</div>
+		</div>
+	
+		<p>The attribute name is used to identify in a human readable way the hardware secure device. It will typically be used by the browser when requesting permission to the user to access a given hardware secure device. The attribute ispresent is used by UA to indicate if the given hardware secure device is currently accessible. This attribute will typically be checked by UA before trying to perform any cryptographic operation on the hardware secure device.</p>
+	
+		<h5><span class="secno">4.2.1.4 </span>CryptoKey interface</span></h5>
+	
+		<p>The CryptoKey interface as defined in the WebCrypto Key Discovery note requires some modification in order to support hardware secure device. The CryptoKey interface and in particular the method getKeyByName is improved to add an optional parameter of hardwaresecuredevice type. If this parameter is provided, the look up for a key with the given name MUST occur only in the targeted hardware secure device. Prior to that, UA MUST validate the presence of the targeted hardware secure device first and then UA MUST call the same method than the callee one but on the provided hardware secure device object. The remaining executive flow remains unchanged as defined in WebCrypto API. In case of absence UA MUST throw an exception by using the reject promise. If the optional parameter is not provided, the search MUST occur only in software wherever the keys are usually stored by UA.</p>
+	
+		<div class="block">
+			<div class="blockTitleDiv">
+				<span class="blockTitle">Web IDL</span>		
+			</div>
+			<div class="blockContent">
+				<pre class="code">
+					<code class="idl-code">
+[NoInterfaceObject]
+interface CryptoKeys {
+    Promise getKeyByName (DOMString name, 
+                          optional HardwareSecureDevice hsd);
+};
+					</code>
+				</pre>
+			</div>
+		</div>	
+		
+		<h5><span class="secno">4.2.1.5 </span>SubtleCrypto interface</span></h5>
+		
+		<p>The SubtleCrypto interface as defined in the WebCrypto API requires some modification in order to support hardware secure device. All the methods of the SubtleCrypto interface are improved to add an optional parameter of hardwaresecuredevice type. If this parameter is provided, the cryptographic operation MUST occur in the targeted hardware secure device. Prior to that, UA MUST validate the presence of the targeted hardware secure device first and and then UA MUST call the same method than the callee one but on the provided hardware secure device object. The remaining executive flow remains unchanged as defined in WebCrypto API. In case of absence UA MUST throw an exception by using the reject promise. If the optional parameter is not provided, the cryptographic operation MUST occur only in software with the default UA implementation.</p>
+		
+		<div class="block">
+			<div class="blockTitleDiv">
+				<span class="blockTitle">Web IDL</span>		
+			</div>
+			<div class="blockContent">
+				<pre class="code">
+					<code class="idl-code">
+[Exposed=(Window,Worker)]
+interface SubtleCrypto {
+				   
+  Promise<any> encrypt(AlgorithmIdentifier algorithm,
+                       CryptoKey key,
+                       BufferSource data
+                       optional HardwareSecureDevice hsd);
+
+  Promise<any> decrypt(AlgorithmIdentifier algorithm,
+                       CryptoKey key,
+                       BufferSource data
+                       optional HardwareSecureDevice hsd);
+					   
+  Promise<any> sign(AlgorithmIdentifier algorithm,
+                    CryptoKey key,
+                    BufferSource data
+                    optional HardwareSecureDevice hsd);
+					   
+  Promise<any> verify(AlgorithmIdentifier algorithm,
+                      CryptoKey key,
+                      BufferSource signature,
+                      BufferSource data
+                      optional HardwareSecureDevice hsd);
+					  
+  Promise<any> digest(AlgorithmIdentifier algorithm,
+                      BufferSource data
+                      optional HardwareSecureDevice hsd);
+
+  Promise<any> generateKey(AlgorithmIdentifier algorithm,
+                          boolean extractable,
+                          sequence<KeyUsage> keyUsages
+                          optional HardwareSecureDevice hsd);
+						  
+  Promise<any> deriveKey(AlgorithmIdentifier algorithm,
+                         CryptoKey baseKey,
+                         AlgorithmIdentifier derivedKeyType,
+                         boolean extractable,
+                         sequence<KeyUsage> keyUsages
+                         optional HardwareSecureDevice hsd);
+						 
+  Promise<any> deriveBits(AlgorithmIdentifier algorithm,
+                          CryptoKey baseKey,
+                          unsigned long length
+                          optional HardwareSecureDevice hsd);
+  
+  Promise<any> importKey(KeyFormat format,
+                         (BufferSource or JsonWebKey) keyData,
+                         AlgorithmIdentifier algorithm,
+                         boolean extractable,
+                         sequence<KeyUsage> keyUsages
+                         optional HardwareSecureDevice hsd);
+						 
+  Promise<any> exportKey(KeyFormat format, 
+                         CryptoKey key
+                         optional HardwareSecureDevice hsd);
+
+  Promise<any> wrapKey(KeyFormat format,
+                       CryptoKey key,
+                       CryptoKey wrappingKey,
+                       AlgorithmIdentifier wrapAlgorithm
+                       optional HardwareSecureDevice hsd);
+
+  Promise<any> unwrapKey(KeyFormat format,
+                         BufferSource wrappedKey,
+                         CryptoKey unwrappingKey,
+                         AlgorithmIdentifier unwrapAlgorithm,
+                         AlgorithmIdentifier unwrappedKeyAlgorithm,
+                         boolean extractable,
+                         sequence<KeyUsage> keyUsages
+                         optional HardwareSecureDevice hsd);
+};
+					</code>
+				</pre>
+			</div>
+		</div>	
+	
+		<h4><span class="secno">4.2.2 </span>Permission</span></h4>
+		
+		<p>UA MUST not start to exchange with an Hardware Secure Device without the express permission of the user. UA MUST acquire permission through a user interface, unless they have prearranged trust relationships with users. The user interface MUST include the host component of the document's URI and a reminder of the Hardware Secure Device name targetted. Those permissions that are acquired through the user interface and that are preserved beyond the current browsing session (i.e. beyond the time when the browsing context is navigated to another URL) must be revocable and UA MUST respect revoked permissions.</p>
+		<p>Some Hardware Secure Device MAY required to be unlocked, using a secure mechanism, before being accessed. In that case, UA MUST provide a way to unlock through a user interface with input capability (text value, fingerprint...). The user interface MUST include the host component of the document's URI and a reminder of the Hardware Secure Device name targeted. The data used to unlock the Hardware Secure Device MUST be transmitted in a secure way and UA MUST NOT store those data.</p>
+	
 		<h2><span class="secno">5. </span>Architectures and security requirements</h2>
 		
 		<p>These requirements are provided to split the responsibilities of each vendor / software providers for the different implementation environments </p>
@@ -621,6 +819,10 @@ interface <dfn id="dfn-HBSS">HBSS</dfn> {
             <dt id="WebCryptoAPI">WebCryptoAPI</dt>
             <dd>
               <cite><a href="https://www.w3.org/TR/WebCryptoAPI/">W3C WebCryptoAPI</a></cite>, Ryan Sleevi, Mark Watson. W3C.
+            </dd>
+			<dt id="WebCryptoAPI">WebCrypto Key Discovery</dt>
+            <dd>
+              <cite><a href="https://www.w3.org/TR/webcrypto-key-discovery/">W3C WebCrypto Key Discovery Note</a></cite>, Mark Watson. W3C.
             </dd>
 		
 		<h3><span class="secno">A.2 </span>Informative references</h3>
