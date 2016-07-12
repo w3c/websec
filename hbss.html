@@ -719,7 +719,7 @@ interface SubtleCrypto {
 		<h3><span class="secno">5.1 </span>Attestations</h3>
 		<p>
 			Both the Secure Credential Storage and the TrustedUI should be securely identified 
-			by attestation.
+			by attestation. These attestations should be implemented as exposed in the the <a href="#FIDO20_ATTESTATIONS">FIDO 2.0 Attestations</a>.
 		</p>
 
 		<h3><span class="secno">5.2 </span>PC-like environments</h3>
@@ -776,9 +776,17 @@ interface SubtleCrypto {
 		</ul>
 		</p>
 
+        <h3><span class="secno">6. </span>TODO</h3>
+        <p>The following topics need to be managed later:
+			<ul>
+				<li>Attestation retrieval by the issuing authority to evaluate the environment (TrustedUI & SE)</li>
+				<li>Post issuance of the key: a specific operation should be added to the Secure Credential Storage API for two reasons: filtering the certified public keys to match the one accepted by the service provider and adding the certified public key during transaction confirmation, device authentication or signature</li>
+			</ul>
+		</p>
+		
 		<div id="dependencies" class="section">
-        <h3>6. Dependencies</span></h3>
-        <p>This specification relies on underlying specifications.</p>
+        <h3><span class="secno">7. </span>Dependencies</h3>
+        <p>This report relies on underlying specifications.</p>
         <dl>
           <dt>DOM</dt>
           <dd>
@@ -811,6 +819,7 @@ interface SubtleCrypto {
           </dd>
         </dl>
       </div>
+	  
 		<h2><span class="secno">A. </span>References</h2>
 		
 		<h3><span class="secno">A.1 </span>Normative references</h3>
@@ -867,6 +876,11 @@ interface SubtleCrypto {
             <dd>
               <cite><a href="http://www.globalplatform.org/specificationsdevice.asp">Trusted Execution Environment</a></cite>, Global Platform.
             </dd>
+			
+			<dt id="FIDO20_ATTESTATIONS">FIDO 2.0 Attestations</dt>
+			<dd>
+				<cite><a href="https://www.w3.org/Submission/2015/SUBM-fido-key-attestation-20151120/">FIDO 2.0: Key Attestation Format</a></cite>, W3C WebAuth.
+			</dd>
 		</dl>
 	</body>
 </html>
