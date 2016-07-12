@@ -56,16 +56,18 @@
 
 		<h2 class="introductory">Table of Contents</h2>
 		<ul>
-			<li>1. Introduction</li>
-			<li>2. Problem Statement</li>
-			<li>3. Use cases</li>
-			<li>4. API</li>
-			<li>5. Architectures and security requirements</li>
-			<li>A. References</li>
+			<li>1. <a href="#sec-introduction">Introduction</a></li>
+			<li>2. <a href="#sec-problem">Problem Statement</a></li>
+			<li>3. <a href="#sec-usecases">Use cases</a></li>
+			<li>4. <a href="#sec-api">Secure transaction and secure credential storage APIs</a></li>
+			<li>5. <a href="#sec-architecture">Architectures and security requirements</a></li>
+			<li>6. <a href="#sec-todo">TODO</a></li>
+			<li>7. <a href="#sec-dependencies">Dependencies</a></li>
+			<li>A. <a href="#sec-reference">References</a></li>
 		</ul>
 
 		<!-- OddPage -->
-		<h2><span class="secno">1. </span>Introduction</h2>
+		<h2><span class="secno">1. </span><dfn id="sec-introduction">Introduction</dfn></h2>
 		<p>
 		The open web platform is running on diverse devices, such as tablet, PC, smart phone, and cars systems. Driven by an expectation from users and service providers, a majority of those devices are embedding some technology allowing to offer some secure services. One can think about secure chips such as embedded secure element, TPM, UICC, or proximity smart card, using BLE or NFC communication means. Another technology getting traction is the Trusted Execution environment. Both types of technology are offering some advantages in terms of secure execution and storage. Secure element and TEE can offer some services, which are names secure services, as their merits in term of integrity and confidentiality are improved. 
 		</p>
@@ -88,7 +90,7 @@
 			an additional level of trust in regards to the transaction confirmation message presented to the end-user to acquire its acknowledgment</li>
 		</ul>
 
-		<h2><span class="secno">2. </span>Problem Statement</h2>
+		<h2><span class="secno">2. </span><dfn id="sec-problem">Problem Statement</dfn></h2>
 
 		<p>At this time Secure Element are not yet usable by web applications. For years, various form factors have been usable thanks to many native API and technologies (PKCS#11, Microsoft API like CSP / Minidriver, Java applet ...). Use cases are valid for native applications but browsers have not been working on integrating those technologies. The need to use secure services in all types of application (native, web app, hybrid) is becoming important, especially on the mobile devices. This document is targeting to define the next generation Javascript API for hardware based keys management and usage, including two specific features :the secure transaction confirmation and the secure credential storage. Those two technologies were identified, because they are key to the corresponding underlying components requirements to re-enable a strong security and identity ecosystem.</p>
 		
@@ -127,7 +129,7 @@
 			<li>with the os option, there is options provided by the OS manufacturer to manage real world use cases - i.e. sensor not capturing the fingerprint switching to the PIN code</li>
 		</ul>
 			
-		<h2><span class="secno">3. </span>Use cases</h2>
+		<h2><span class="secno">3. </span><dfn id="sec-usecases">Use cases</dfn></h2>
 		<p>
 			The hardware based technology is already used in a number of use cases, which are particularly sensitive to security attacks. Those domains cover financial and telecommunication industry, government and corporate services. Hardware based technology is used in those domains in specific cases such as managing authentication of the user or of the device, capturing user consent, document signature... The following use cases are detailing how hardware based technology are used today in different areas, in native environment. One should read those use cases as attractive for in web application scenario.
 		</p>
@@ -159,7 +161,7 @@
 		Whatever is the envisaged use case, signing a tax payment, confirming a transaction payment, validating the signature of a document, the service needs to rely on a genuine signature and user control. Each service provider needs to have a certain flexibility in designing its security model. Nevertheless, there are some minimum common basic functions that one can find in most of the security operations. The Hardware Based secure Services Community Group identified two technical features that are used on a regular basis : the secure transaction confirmation, and the secure credential storage. It is expected that those secure services, when being implemented natively in user agents, will offer a certain level of resistance and a certain level of trustworthiness. In the following section, those features will be detailed in the form of APIs and their security merits.
 		</p>
 		
-		<h2><span class="secno">4. </span>Secure transaction and secure credential storage APIs</h2>
+		<h2><span class="secno">4. </span><dfn id="sec-api">Secure transaction and secure credential storage APIs</dfn></h2>
 
 		<p>This section contains the API descriptions and the different rationale for the architecture and design choices. It covers both functionalities related to the storage and usage of credentials in a hardware based token, and the secure transaction confirmation. Those feature do rely on the presence of a credential, lets call it a key. </p>
 		<p>The life cycle of this key is usual : creation, usage and deletion. In the framework of this short life community group, we will take the following assumptions on the key lifecycle :
@@ -712,7 +714,7 @@ interface SubtleCrypto {
 		<p>UA MUST not start to exchange with an Hardware Secure Device without the express permission of the user. UA MUST acquire permission through a user interface, unless they have prearranged trust relationships with users. The user interface MUST include the host component of the document's URI and a reminder of the Hardware Secure Device name targetted. Those permissions that are acquired through the user interface and that are preserved beyond the current browsing session (i.e. beyond the time when the browsing context is navigated to another URL) must be revocable and UA MUST respect revoked permissions.</p>
 		<p>Some Hardware Secure Device MAY require to be unlocked, using a secure mechanism, before being accessed. In that case, UA MUST provide a way to unlock through a user interface with input capability (text value, fingerprint...). The user interface MUST include the host component of the document's URI and a reminder of the Hardware Secure Device name targeted. The data used to unlock the Hardware Secure Device MUST be transmitted in a secure way and UA MUST NOT store those data.</p>
 	
-		<h2><span class="secno">5. </span>Architectures and security requirements</h2>
+		<h2><span class="secno">5. </span><dfn id="sec-architecture">Architectures and security requirements</dfn></h2>
 		
 		<p>These requirements are provided to split the responsibilities of each vendor / software providers for the different implementation environments </p>
 
@@ -776,7 +778,7 @@ interface SubtleCrypto {
 		</ul>
 		</p>
 
-        <h3><span class="secno">6. </span>TODO</h3>
+        <h3><span class="secno">6. </span><dfn id="sec-todo">TODO</dfn></h3>
         <p>The following topics need to be managed later:
 			<ul>
 				<li>Attestation retrieval by the issuing authority to evaluate the environment (TrustedUI & SE)</li>
@@ -785,7 +787,7 @@ interface SubtleCrypto {
 		</p>
 		
 		<div id="dependencies" class="section">
-        <h3><span class="secno">7. </span>Dependencies</h3>
+        <h3><span class="secno">7. </span><dfn id="sec-dependencies">Dependencies</dfn></h3>
         <p>This report relies on underlying specifications.</p>
         <dl>
           <dt>DOM</dt>
@@ -820,7 +822,7 @@ interface SubtleCrypto {
         </dl>
       </div>
 	  
-		<h2><span class="secno">A. </span>References</h2>
+		<h2><span class="secno">A. </span><dfn id="sec-references">References</dfn></h2>
 		
 		<h3><span class="secno">A.1 </span>Normative references</h3>
 
