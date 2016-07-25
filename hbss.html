@@ -156,7 +156,7 @@
 			This ecosystem is also used by the French corporate banks to manage
 			many regulatory related tasks and also to enforce strong authentication but also digital signature, for example to confirm the file containing the widthdrawal of the salary for a company. 
 			Issuing authentication credential is not acceptable according to the
-			existing risks they are facing in terms cyber attacks: combined social engineering, phishing, stolen Transaction Account Number for multiple attack vectors: 3DSecure online payment confirmation, withdrawal...
+			existing risks they are facing in terms cyber attacks: combined social engineering, phishing, stolen Transaction Account Number 	for multiple attack vectors: 3DSecure online payment confirmation, withdrawal...
 			Banks are looking to cover the transaction risk by using the right credentials for the risk, with the strongest level of authentication being used for the highest risk scenarios.
 			Without the capability to rely upon Secure Elements in the browser, banks currently face a major issue in being able to replace the existing identity scheme delegation which provides a strong authentication and signature credential.
 		</p>
@@ -524,8 +524,7 @@ interface <dfn id="dfn-HBSS">HBSS</dfn> {
 		party to ensure	that the data associated with the context are both signed and they match the initial request
 		The user has accepted the context (and liability may rely only on that context in regards to this cryptographic operation) 
 		The data signature (i.e. PDF signature) is then a way to embed into the data the user consent.</p>
-		by producing with its own cryptographic key the binary data signature. 
-		<p>SECURITY NOTE: it could occur that the binary data are altered before signature by a malware or javascript or any software attacking the user agent. in such scenario, the altered binary data would be successfully signed on the user agent side. It is up to the relying party to check that the binary data and the context received are signed with the same key. In addition, the relying party, as part of its security policy, will be able to reject any attempt to submit binary signed data if they are not provided with a valid signed context.
+		<p>It could occur that the binary data are altered before signature by a malware or javascript or any software attacking the user agent. in such scenario, the altered binary data would be successfully signed on the user agent side. It is up to the relying party to check that the binary data and the context received are signed with the same key. In addition, the relying party, as part of its security policy, will be able to reject any attempt to submit binary signed data if they are not provided with a valid signed context.
 		</p>
 		<p>Within this signature operation, the mode for the user verification method MUST NOT be neither <code>"passive"</code> nor <code>"presence"</code>.</p>
 
@@ -537,7 +536,7 @@ interface <dfn id="dfn-HBSS">HBSS</dfn> {
 		
 		<h4><span class="secno">4.2.1 </span>Secure Credential Storage API</h4>
 		
-		<p>This API relies on the existing but enhanced WebCrypto API to support key naming, as proposed in WebCrypto Key Discovery note, but also defines the notion of HardwareSecureDevice which represents any form of hardware cryptographic device acting as cryptographic provider, in a similar way of what JAVA defines, to bring new capabilities to the SubtleCrypto interface and in particular the persistent and secure storage of keys.</p>
+		<p>This API relies on the existing but enhanced WebCrypto API to support key naming, as proposed in WebCrypto Key Discovery note, but also defines the notion of HardwareSecureDevice which represents any form of hardware cryptographic device acting as cryptographic provider, in a similar way of what JAVA defines with its framework <a href="#JCA_REF_GUIDE">Java Cryptography Architecture (JCA)</a>, to bring new capabilities to the SubtleCrypto interface and in particular the persistent and secure storage of keys.</p>
 		
 		<h5><span class="secno">4.2.1.1 </span>Window interface</h5>
 		
@@ -891,6 +890,13 @@ interface SubtleCrypto {
 			<dd>
 				<cite><a href="https://www.w3.org/Submission/2015/SUBM-fido-key-attestation-20151120/">FIDO 2.0: Key Attestation Format</a></cite>, W3C WebAuth.
 			</dd>
+			
+			<dt id="JCA_REF_GUIDE">JCA Reference Guide</dt>
+			<dd>
+				<cite><a href="http://docs.oracle.com/javase/7/docs/technotes/guides/security/crypto/CryptoSpec.html#Introduction"> Java Cryptography Architecture (JCA) Reference Guide</a></cite>, Oracle.
+			</dd>
+			
+			
 		</dl>
 	</body>
 </html>
