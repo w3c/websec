@@ -18,7 +18,7 @@
 			<dl>
 				<dt>Latest version</dt>
 				<dd>
-					<a href="https://github.com/w3c/websec/hbss.html">https://github.com/w3c/websec/hbss.html</a>
+					<a href="https://rawgit.com/w3c/websec/gh-pages/hbss.html">https://rawgit.com/w3c/websec/gh-pages/hbss.html</a>
 				</dd>
 				<dt>History</dt>
 				<dd>
@@ -69,7 +69,7 @@
 		<!-- OddPage -->
 		<h2><span class="secno">1. </span><dfn id="sec-introduction">Introduction</dfn></h2>
 		<p>
-		The open web platform is running on diverse devices, such as tablet, PC, smart phone, and cars systems. Driven by an expectation from users and service providers, a majority of those devices are embedding some technology allowing to offer some secure services. One can think about secure chips such as embedded secure element, TPM, UICC, or proximity smart card, using BLE or NFC communication means. Another technology getting traction is the Trusted Execution environment. Both types of technology are offering some advantages in terms of secure execution and storage. Secure element and TEE can offer some services, which are names secure services, as their merits in term of integrity and confidentiality are improved. 
+		The open web platform runs on diverse devices such as tablets, PCs, smart phones, and cars' systems. Driven by an expectation from users and service providers, a majority of those devices are embedding some technology allowing to offer some secure services. One can think about secure chips such as embedded secure element, TPM, UICC, or proximity smart card, using BLE or NFC communication means. Another technology getting traction is the Trusted Execution environment. Both types of technology are offering some advantages in terms of secure execution and storage. Secure elements and TEEs can offer some services, known as Secure Services, to improve the integrity and confidentiality of data transactions. 
 		</p>
 		<p>
 		This document is proposing some use cases where the web apps could benefit from secure services. In addition, in order to demonstrate the feasibility of such secure services, the Hardware Based Secure Services Community Group has identified two services, for which technical rationale and API will be detailed. In addition some protoypes, testing the reliablility of the architecture, will be developed. The elected secure services are (1) secure transaction confirmation and (2) secure credential storage.
@@ -77,13 +77,12 @@
 
 		<h3><span class="secno">1.1 </span>Terminology</h3>
 		<ul>
-			<li>Secure Service: any service that should manage sensitive operations and that would benefit of/depends upon the 
-			use of an hardware based security solution.</li>
+			<li>Secure Service: any service that manages sensitive operations and would benefit from/depend upon the use of an hardware based security solution.</li>
 			<li>Relying party: the Web application providing the Secure Service and requesting the hardware access</li>
 			<li>Issuing authority: well known in X509 certificates scheme as certificate authority, the issuing authority is in charge of issuing a associated key/identity pair to a known identity and to maintain its lifecycle. The end-user identification is out-of-scope of this document but is clearly mandatory to associate a key to a genuine identity.</li>
-			<li>Origin: in reference to the Single Origin Policy, an origin is referred in this document to an HTTP URL with scheme, host, port without path</li>
+			<li>Origin: with reference to the Single Origin Policy, in this document an origin refers to an HTTP URL with scheme, host, port without path</li>
 			<li>Secure Element: A secure element is a tamper proof device, providing a secure storage and execution environment for sensitive data and processing. It offers both physical and logical protection against attacks, ensuring integrity and confidentiality of its content.</li>
-			<li>User Verification Method: This is the way the Secure Element authorize keys usage only to the genuine user. Could be what you know like a PIN code or what you are through a biometric face/finger/iris... end-user authentication</li>
+			<li>User Verification Method: This is the way the Secure Element ensures that only the genuine user is authorized to used the keys. For example, this method could be knowledge of a PIN code or biometric verification.</li>
 			<li>Identity: to be verified by the issuing authority, the identity is cryptographically linked to the key demonstrating who has confirmed a transaction or signed a document</li>
 			<li>Key: asymmetric cryptographic public/private key pair, sometimes linked to an identity</li>
 			<li>Trusted User Interface: User interface component outside the direct browser scope providing 
@@ -92,19 +91,19 @@
 
 		<h2><span class="secno">2. </span><dfn id="sec-problem">Problem Statement</dfn></h2>
 
-		<p>At this time Secure Element are not yet usable by web applications. For years, various form factors have been usable thanks to many native API and technologies (PKCS#11, Microsoft API like CSP / Minidriver, Java applet ...). Use cases are valid for native applications but browsers have not been working on integrating those technologies. The need to use secure services in all types of application (native, web app, hybrid) is becoming important, especially on the mobile devices. This document is targeting to define the next generation Javascript API for hardware based keys management and usage, including two specific features :the secure transaction confirmation and the secure credential storage. Those two technologies were identified, because they are key to the corresponding underlying components requirements to re-enable a strong security and identity ecosystem.</p>
+		<p>At this time Secure Element are not yet usable by web applications. For years, various form factors have been usable thanks to many native API and technologies (PKCS#11, Microsoft API like CSP / Minidriver, Java applet ...). Use cases are valid for native applications but browsers have not been working on integrating those technologies. The need to use secure services in all types of application (native, web app, hybrid) is becoming important, especially on the mobile devices. This document aims to define the next generation Javascript API for two specific requirements for hardware based key management and usage: Secure transaction confirmation and Secure credential storage. These two requirements have been identified by the Hardware Based Secure Services Community Group as being as key to enabling a strong security and identity ecosystem.</p>
 		
 		<p>The management of keys is associated with the problem of key usage. On the open web platform, the security principle that prevails everywhere is the Single Origin Policy. This strict policy may have some limitation in some specific cases, where several parties are involved in the delivery of a secure service.</p>
 		
-		<p>Single Origin Policy: one main matter of interest of the hardware-based secure services community group members is how to protect key usage considering the special use case where the credentials are used outside their issuing origin. As an example: Let's consider that a domain foo.com issues a key. Because the keys won't be accessible with a Javascript API from any domain, we have to design a secure system where the domain bar.com is allowed to use this key.</p>
+		<p>Single Origin Policy: one main matter of interest of the hardware-based secure services community group members is how to protect key usage considering the special use case where the credentials are used outside their issuing origin. For example: Suppose that a domain foo.com issues a key. Because the key is not accessible by Javascript API from another domain, we have to design a secure system where the domain bar.com is allowed to use this key.</p>
 
 		
-		<p>This first version of the report will not address this issue but will focus on:
+		<p>"In this document, we assume that:
 		<ul>
-			<li>pre-existing X509 certificates accessible under the full control of the end-user to any transaction confirmation request.</li>
-			<li>any API issued key MUST only be managed and used by its origin</li>
+			<li>pre-existing keys and X509 certificates are under the full control of the end-user</li>
+			<li>any API issued key MUST only be managed and used by its own origin</li>
 		</ul>
-		Further extension will be added to authorize various origins to use and manage a particular key.</p>
+		Extensions will be added later to authorize various origins to use and manage a particular key.</p>
 		
 		<p><em>Position to FIDO and WebAuth standards:</em> this document is focusing on providing web developers means to
 		issue and use identity keys (whether they are X509 certificates or any other cryptographic model with underlying
@@ -117,6 +116,7 @@
 		
 		<p>The user verification method is out of scope of this specification. But it should be clear whether a key is protected by
 		<ul>
+			<li>the terminal without any user interaction (passive)</li>
 			<li>the user presence confirmation (presence)</li>
 			<li>the underlying OS user verification method like an handle to the registered fingerprint template (os)</li>
 			<li>a specific and private key bound with user verification method like a specific PIN or a specific fingerprint/iris template (active)</p></li>
@@ -128,46 +128,54 @@
 			<li>with the presence option there is no assurance that the right user is really behind the user-agent</li>
 			<li>with the os option, there is options provided by the OS manufacturer to manage real world use cases - i.e. sensor not capturing the fingerprint switching to the PIN code</li>
 		</ul>
+		Only the active option will guarantee that the user with the right knowledge or biometric characteristic is behind the user-agent.
 			
 		<h2><span class="secno">3. </span><dfn id="sec-usecases">Use cases</dfn></h2>
 		<p>
-			The hardware based technology is already used in a number of use cases, which are particularly sensitive to security attacks. Those domains cover financial and telecommunication industry, government and corporate services. Hardware based technology is used in those domains in specific cases such as managing authentication of the user or of the device, capturing user consent, document signature... The following use cases are detailing how hardware based technology are used today in different areas, in native environment. One should read those use cases as attractive for in web application scenario.
+			Hardware based services are already used in a number of domains which are particularly vulnerable to security attacks. Those domains cover financial and telecommunication industry, government and corporate services. Hardware based technology is used in those domains in specific cases such as managing authentication of the user or of the device, capturing user consent, document signature... The following use cases describe different areas in which hardware based technology is being used today. One should read those use cases as attractive for in web application scenario.
 		</p>
 		
 		<h3><span class="secno">3.1 </span>National electronic identity for accessing public services. </h3>
 		<p>
-		As of today, a large number of european countries have deployed electronic identity, and do offer their citizen the access to to governement services such as paying tax, managing pensions. Eaxmples of countries and associated systems are : Estonia with eEstonia, Belgium eID with eService ecosystem, Sweden with a Tax Agency card and Telia eID, Norway with its ID-porten. All the deployed solutions are relying on middleware deployment on citizen devices. </p>
+		As of 2016, a large number of European countries have already deployed electronic identity systems and offer their citizens access to government services such as paying tax or managing pensions. Examples of countries and associated systems are:
+		<ul>
+			<li>Estonia: eEstonia</li>
+			<li>Belgium: eID with eService ecosystem</li>
+			<li>Sweden: Tax Agency card and Telia eID</li>
+			<li>Norway: ID-porten</li>
+		</ul>
+		All the deployed solutions are relying on middleware deployment on citizen devices. </p>
 		<p>
-		Whatever is the service accessed, it is expected by the citizen that he or she owns a hardware based token, that will carry its electronic identity. This identity (most of the time a certificate for a key pair) will be used to authenticate the user and sign some transaction he or she will be performing on the government portal. The native environment, installed on the citizen device, or on the public service office is able to access to the hardware token, thanks to a physical link (USB, ISO, BLE, ...).
+		Whatever the service accessed, the citizen will be expected to own a hardware token that will carry their electronic identity. This identity (most of the time a certificate for a key pair) will be used to authenticate the user and sign some transaction he or she will be performing on the government portal. The native environment of the citizen device, or of the public service office, is able to access to the hardware token, thanks to a transport layer (USB, ISO 7816 / 14443, Bluetooth Low Energy ...).
 		</p>
 		<h3><span class="secno">3.2 </span>Financial transaction signature, with user consent</h3>		
-		<p>The remote access to financial account, together with the electronic fund transfer are now part of citizen habits in developed countries. Most of the banks do offer in their account package this remote management service. In some conditions, usually defined by the bank, some extra security are requested to the consumer to finalize transactions. This extra security aims at improving the usual login/password security barrier. Depending on the use case, it could be either a one time password sent by SMS, or a user operation to confirm his or her presence, or a real signature of the transaction itself. That last step requires the user to use some credentials, distributed by the bank, usually stored in a secure container, such as a hardware based token (USB token or proximity token). In that case, the signature will be made on a serie of data, including the amount and the destination and source of the transaction, plus some additional information, as desired by the bank.</p>
+		<p>The remote access to financial account, together with the electronic fund transfer are now part of citizen habits in developed countries. Most of the banks do offer in their account package this remote management service. In some conditions, usually defined by the bank, some extra security are requested to the consumer to finalize transactions. This extra security aims at improving the usual login/password security barrier. Depending on the use case, it could be either a one time password sent by SMS, or a user operation to confirm his or her presence, or a digital signature of the transaction itself. That last step requires the user to use some credentials, distributed by the bank, usually stored in a secure container, such as a hardware based token (USB token or proximity token). The data signed by the user generally includes the amount and destination of the transaction, plus additional information as desired by the bank.</p>
 		<h4><span class="secno">3.2.1 </span>French ecosystem</h4>
 		<p>
-			In France, a trusted issuing certificate authorities list is maintained by the Finances Ministry in order to manage corporate identities 
-			Certificate authorities used to manage the face to face identity verification and deliver smartcards or USB tokens.
+			In France, a list of trusted issuing certificate authorities is maintained by the Finance Ministry. The face-to-face verification of individual identity acting on behalf of a company is managed by the certificate authorities, as is the delivery of smartcards or USB tokens.
 			This ecosystem is also used by the French corporate banks to manage
 			many regulatory related tasks and also to enforce strong authentication but also digital signature, for example to confirm the file containing the widthdrawal of the salary for a company. 
-			And issuing authentication credential is not acceptable according to the
-			existing risks they are facing in terms cyber attacks: combined social engineering, phishing, stolen TAN...
-			Banks are looking to cover the transaction risk by using the right credential to adapt the user experience to the risk, which includes also the strongest level for the highest risk. And now without the capability to rely upon Secure Elements in the browser, they currently facing a major issue to replace the existing identity scheme delegation which was providing a strong authentication and signature credential.
+			Issuing authentication credential is not acceptable according to the
+			existing risks they are facing in terms cyber attacks: combined social engineering, phishing, stolen Transaction Account Number for multiple attack vectors: 3DSecure online payment confirmation, withdrawal...
+			Banks are looking to cover the transaction risk by using the right credentials for the risk, with the strongest level of authentication being used for the highest risk scenarios.
+			Without the capability to rely upon Secure Elements in the browser, banks currently face a major issue in being able to replace the existing identity scheme delegation which provides a strong authentication and signature credential.
 		</p>
 
 		<h3><span class="secno">3.3 </span>Transparent device authentication for online payment confirmation on 3DSecure scheme</h3>
 		<p>To be completed by Brian (Visa Europe)</p>
 
-		<h3><span class="secno">3.5 </span>The expectation from secure services</h3>
+		<h3><span class="secno">3.4 </span>The expectation from secure services</h3>
 		<p>
 		Whatever is the envisaged use case, signing a tax payment, confirming a transaction payment, validating the signature of a document, the service needs to rely on a genuine signature and user control. Each service provider needs to have a certain flexibility in designing its security model. Nevertheless, there are some minimum common basic functions that one can find in most of the security operations. The Hardware Based secure Services Community Group identified two technical features that are used on a regular basis : the secure transaction confirmation, and the secure credential storage. It is expected that those secure services, when being implemented natively in user agents, will offer a certain level of resistance and a certain level of trustworthiness. In the following section, those features will be detailed in the form of APIs and their security merits.
 		</p>
 		
 		<h2><span class="secno">4. </span><dfn id="sec-api">Secure transaction and secure credential storage APIs</dfn></h2>
 
-		<p>This section contains the API descriptions and the different rationale for the architecture and design choices. It covers both functionalities related to the storage and usage of credentials in a hardware based token, and the secure transaction confirmation. Those feature do rely on the presence of a credential, lets call it a key. </p>
+		<p>This section contains the API descriptions and the different rationale for the architecture and design choices. It covers both functionalities related to the storage and usage of credentials in a hardware based token, and the secure transaction confirmation. Those functions rely on the presence of a credential, referred to here as a key. </p>
 		<p>The life cycle of this key is usual : creation, usage and deletion. In the framework of this short life community group, we will take the following assumptions on the key lifecycle :
 		<ul>
 			<li>the key has already been generated</li>
-			<li>the service using the key is an authorized service - in the framework of the SOP, it is the same service that created the key. The Community Group is in parralel also working on the definition of a mechanisms to allow an entity to use some keys generated by another entity, but this requires the definition of a new type of data, associated with a specific key, and this is for future deliverable. Note : all use cases are envisaged with a pre-existing key set.</li>
+			<li>the service using the key is an authorized service - in the framework of the SOP, it is the same service that created the key. The Community Group is in parallel also working on the definition of a mechanism to allow an entity to use some keys generated by another entity, but this requires the definition of a new type of data, associated with a specific key, and this is for future deliverable. Note : all use cases are envisaged with a pre-existing key set.</li>
 		</ul></p>
 		<h3><span class="secno">4.1 </span>Secure transaction interface</h3>
 			
@@ -224,7 +232,7 @@ interface <dfn id="dfn-HBSS">HBSS</dfn> {
             <dt id="dfn-UVMMode"><code>UVMMode</code></dt>
             <dd>
               The type of user verification method mode prior to the key usage for the corresponding method. The <dfn id="dfn-RecognizedUVMMode">recognized user verification modes values</dfn>
-              are <code>"passive"</code>, <code>"presence"</code>, <code>"active"</code> and <code>"os"</code>. <code>"passive"</code> means that the no user interaction has been done, <code>"presence"</code> means that someone confirms the operation on the device, <code>"active"</code> means that the user has been actively authenticated and <code>"os"</code> means that the confirmation relies upon the OS either through PIN, fingerprint or any other end-user verification methods. It means that the user experience and process are the one provide by the OS itself including recovery procedures which may have their strengths own weaknesses.
+              are <code>"passive"</code>, <code>"presence"</code>, <code>"active"</code> and <code>"os"</code>. <code>"passive"</code> means that the no user interaction has been done, <code>"presence"</code> means that someone confirms the operation on the device, <code>"active"</code> means that the user has been actively authenticated and <code>"os"</code> means that the confirmation relies upon the OS either through PIN, fingerprint or any other end-user verification methods. The user experience of verification (including recovery procedures) is the same as provided natively by the OS itself, which may carry its own strength or weakness.
             </dd>
           </dl>
 		<h4><span class="secno">4.1.4 </span>Methods and parameters</h4>
@@ -778,7 +786,7 @@ interface SubtleCrypto {
 		</ul>
 		</p>
 
-        <h3><span class="secno">6. </span><dfn id="sec-todo">TODO</dfn></h3>
+        <h2><span class="secno">6. </span><dfn id="sec-todo">TODO</dfn></h2>
         <p>The following topics need to be managed later:
 			<ul>
 				<li>Attestation retrieval by the issuing authority to evaluate the environment (TrustedUI & SE)</li>
@@ -787,7 +795,7 @@ interface SubtleCrypto {
 		</p>
 		
 		<div id="dependencies" class="section">
-        <h3><span class="secno">7. </span><dfn id="sec-dependencies">Dependencies</dfn></h3>
+        <h2><span class="secno">7. </span><dfn id="sec-dependencies">Dependencies</dfn></h2>
         <p>This report relies on underlying specifications.</p>
         <dl>
           <dt>DOM</dt>
