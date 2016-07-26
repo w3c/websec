@@ -82,6 +82,7 @@
 			<li>Issuing authority: well known in X509 certificates scheme as certificate authority, the issuing authority is in charge of issuing a associated key/identity pair to a known identity and to maintain its lifecycle. The end-user identification is out-of-scope of this document but is clearly mandatory to associate a key to a genuine identity.</li>
 			<li>Origin: with reference to the Single Origin Policy, in this document an origin refers to an HTTP URL with scheme, host, port without path</li>
 			<li>Secure Element: A secure element is a tamper proof device, providing a secure storage and execution environment for sensitive data and processing. It offers both physical and logical protection against attacks, ensuring integrity and confidentiality of its content.</li>
+			<li>User Agent (UA): a user agent is software (a software agent) that is acting on behalf of a user (from <a href="https://en.wikipedia.org/wiki/User_agent">Wikipedia</a>)</li>
 			<li>User Verification Method: This is the way the Secure Element ensures that only the genuine user is authorized to used the keys. For example, this method could be knowledge of a PIN code or biometric verification.</li>
 			<li>Identity: to be verified by the issuing authority, the identity is cryptographically linked to the key demonstrating who has confirmed a transaction or signed a document</li>
 			<li>Key: asymmetric cryptographic public/private key pair, sometimes linked to an identity</li>
@@ -532,7 +533,7 @@ interface <dfn id="dfn-HBSS">HBSS</dfn> {
 		
 		<h3><span class="secno">4.2 </span>Secure Credential Storage</h3>
 		
-		<p>This subpart describes a JavaScript API for discovering named, origin-specific pre-provisioned cryptographic keys stored into hardware secure device to be used with the Web Cryptography API. Pre-provisioned keys are keys which have been made available to the UA by means other than the generation, derivation, importation and unwrapping functions of the Web Cryptography API. Origin-specific keys are keys that are available only to a specified origin. Named keys are identified by a name assumed to be known to the origin in question and provisioned with the key itself.</p>
+		<p>This subpart describes a JavaScript API for discovering named, origin-specific pre-provisioned cryptographic keys stored into hardware secure device to be used with the Web Cryptography API. Pre-provisioned keys are keys which have been made available to the UA by means other than the generation, derivation, importing and unwrapping functions of the Web Cryptography API. Origin-specific keys are keys that are available only to a specified origin. Named keys are identified by a name assumed to be known to the origin in question and provisioned with the key itself.</p>
 		
 		<h4><span class="secno">4.2.1 </span>Secure Credential Storage API</h4>
 		
@@ -563,7 +564,8 @@ WorkerGlobalScope implements GlobalHardwareSecureDeviceManager;
 		
 		<h5><span class="secno">4.2.1.2 </span>HardwareSecureDeviceManager interface</h5>
 		
-		<p>The HardwareSecureDeviceManager interface provides access to hardware secure devices and is the source of events notifying their presences. The notion of presence is important because an hardware secure device MAY not always be stucked in the same environment (like an embedded secure element, a TEE...) but MAY be shared with severals (like with a Smartcard, an NFC card...).</p>
+		<p>The HardwareSecureDeviceManager interface provides access to hardware secure devices and is the source of events notifying their presences. 
+		The notion of presence is important because a hardware secure device may not always be fixed in the same hardware environment as the user agent (e.g. an embedded secure element or a TEE); some hardware secure devices may be shared with several user agents (e.g. smart cards or NFC cards).</p>
 		
 		<div class="block">
 			<div class="blockTitleDiv">
@@ -583,11 +585,13 @@ interface HardwareSecureDeviceManager : EventTarget {
 			</div>
 		</div>
 		
-		<p>The attribute hardwaresecuredevices represents the list of hardware secure devices presents and acccessible by UA at the time the attribute is accessed. UA is in charge to add or remove element in that array depending of the evolution of the environment in term of presence and absence of hardware secure device. User MAY define two event listeners (onHardwareSecureDevicePresent and onHardwareSecureDeviceRemoval) which will be called by UA to notify the user of the ongoing changes of the environment in term of presence or absence of hardware secure element.</p>
+		<p>The attribute hardwaresecuredevices represents the list of hardware secure devices presents and acccessible by UA at the time the attribute is accessed. UA is in charge to add or remove element in that array depending of the evolution of the environment in term of presence and absence of hardware secure device. User MAY define two event listeners (onHardwareSecureDevicePresent and onHardwareSecureDeviceRemoval) which will be called by UA to notify the user of the ongoing changes of the environment in term of presence or absence of hardware secure device.</p>
 
 		<h5><span class="secno">4.2.1.3 </span>HardwareSecureDevice interface</span></h5>
 		
-		<p>The HardwareSecureDevice interface extends the SubtleCrypto interface providing a different implementation of one or more SubtleCrypto methods in order to let the hardware device handle the cryptographic operation internaly instead of the UA in software. It can be viewed as a cryptographic provider bringing cryptographic capabilities of an hardware device to the WebCrypto API in a transparrent maner. UA MAY defines other classes extending the HardwareSecureDevice one representing different type of hardware secure device with specific implementation. One implementation COULD be using PKCS#11 as transport layer to communicate with a compatible hardware securedevices</p>
+		<p>The HardwareSecureDevice interface extends the SubtleCrypto interface providing a different implementation of one or more SubtleCrypto methods in order to let the hardware device handle the cryptographic operation internaly instead of the UA in software. 
+		It can be viewed as a cryptographic provider bringing cryptographic capabilities of a hardware device to the WebCrypto API in a transparent manner.
+		UA MAY defines other classes extending the HardwareSecureDevice one representing different type of hardware secure device with specific implementation. One implementation COULD be using PKCS#11 as transport layer to communicate with a compatible hardware securedevices</p>
 
 		<div class="block">
 			<div class="blockTitleDiv">
