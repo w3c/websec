@@ -14,7 +14,7 @@
 				</a>
 			</p>
 			<h1 property="dcterms:title" class="title" id="title">Hardware Based Secure Services features</h1>
-			<h2 property="bibo:subtitle" id="subtitle">Draft version - 12 July 2016</h2>
+			<h2 property="bibo:subtitle" id="subtitle">Draft version - 27 July 2016</h2>
 			<dl>
 				<dt>Latest version</dt>
 				<dd>
@@ -492,7 +492,7 @@ interface <dfn id="dfn-HBSS">HBSS</dfn> {
 		
 		<h4><span class="secno">4.1.6 </span>Security considerations</h4>
 		<p>This 4.1 section covers the various usages of keys. The use cases (transaction confirmation, signature, device authentication) are not highly sensitive in terms 
-		of transaction confidentiality, which means that standard SOP rules are considered sufficient without any need for end-to-end encryption (like secure messaging). <br/>
+		of transaction confidentiality, which means that standard SOP rules are considered sufficient without any need for end-to-end encryption (i.e. from SP to the Hardware Secure Device). <br/>
 		To avoid context swapping, it is mandatory that the non-repudiation message contains specific data for the requested
 		transaction with the requesting party, the purpose of the transaction and the date of the operation.</p>
 
@@ -794,6 +794,7 @@ interface SubtleCrypto {
 			<ul>
 				<li>Attestation retrieval by the issuing authority to evaluate the environment (TrustedUI & SE)</li>
 				<li>Post issuance of the key: a specific operation should be added to the Secure Credential Storage API for two reasons: filtering the certified public keys to match the one accepted by the service provider and adding the certified public key during transaction confirmation, device authentication or signature</li>
+				<li>Need to confirm is this API being operated only in the context of <a href="ttps://www.w3.org/TR/secure-contexts/">Priviledged Context</a> or not</li>
 			</ul>
 		</p>
 		
