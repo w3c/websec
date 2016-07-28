@@ -60,7 +60,7 @@
 			<li>2. <a href="#sec-problem">Problem Statement</a></li>
 			<li>3. <a href="#sec-usecases">Use cases</a></li>
 			<li>4. <a href="#sec-api">Secure transaction and secure credential storage APIs</a></li>
-			<li>5. <a href="#sec-architecture">Architectures and security requirements</a></li>
+			<li>5. <a href="#sec-implementation">Implementation requirements</a></li>
 			<li>6. <a href="#sec-todo">TODO</a></li>
 			<li>7. <a href="#sec-dependencies">Dependencies</a></li>
 			<li>A. <a href="#sec-reference">References</a></li>
@@ -725,7 +725,7 @@ interface SubtleCrypto {
 		<p>UA MUST not start to exchange with an Hardware Secure Device without the express permission of the user. UA MUST acquire permission through a user interface, unless they have prearranged trust relationships with users. The user interface MUST include the host component of the document's URI and a reminder of the Hardware Secure Device name targetted. Those permissions that are acquired through the user interface and that are preserved beyond the current browsing session (i.e. beyond the time when the browsing context is navigated to another URL) must be revocable and UA MUST respect revoked permissions.</p>
 		<p>Some Hardware Secure Device MAY require to be unlocked, using a secure mechanism, before being accessed. In that case, UA MUST provide a way to unlock through a user interface with input capability (text value, fingerprint...). The user interface MUST include the host component of the document's URI and a reminder of the Hardware Secure Device name targeted. The data used to unlock the Hardware Secure Device MUST be transmitted in a secure way and UA MUST NOT store those data.</p>
 	
-		<h2><span class="secno">5. </span><dfn id="sec-architecture">Architectures and security requirements</dfn></h2>
+		<h2><span class="secno">5. </span><dfn id="sec-implementation">Implementation requirements</dfn></h2>
 		
 		<p>These requirements are provided to split the responsibilities of each vendor / software providers for the different implementation environments </p>
 
