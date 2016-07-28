@@ -99,12 +99,12 @@
 		<p>Single Origin Policy: one main matter of interest of the hardware-based secure services community group members is how to protect key usage considering the special use case where the credentials are used outside their issuing origin. For example: Suppose that a domain foo.com issues a key. Because the key is not accessible by Javascript API from another domain, we have to design a secure system where the domain bar.com is allowed to use this key.</p>
 
 		
-		<p>In this document, we assume that:
+		<p>In this document, we assume that:</p>
 		<ul>
 			<li>pre-existing keys and X509 certificates are under the full control of the end-user</li>
 			<li>any API issued key MUST only be managed and used by its own origin</li>
 		</ul>
-		Extensions will be added later to authorize various origins to use and manage a particular key.</p>
+		<p>Extensions will be added later to authorize various origins to use and manage a particular key.</p>
 		
 		<p><em>Position to FIDO and WebAuth standards:</em> this document is focusing on providing web developers means to
 		issue and use identity keys (whether they are X509 certificates or any other cryptographic model with underlying
@@ -115,21 +115,21 @@
 		<p><em>Position to WebCryptoAPI standards:</em> this report includes to WebCryptoAPI so that
 		web developers can rely upon the same API but with a different initialization (like Java Cryptographic Engine with hardware provider).</p>
 		
-		<p>The user verification method is out of scope of this specification. But it should be clear whether a key is protected by:
+		<p>The user verification method is out of scope of this specification. But it should be clear whether a key is protected by:</p>
 		<ul>
 			<li>the terminal without any user interaction (passive)</li>
 			<li>the user presence confirmation (presence)</li>
 			<li>the underlying OS user verification method like an handle to the registered fingerprint template (os)</li>
 			<li>a specific and private key bound with user verification method like a specific PIN or a specific fingerprint/iris template (active)</p></li>
 		</ul>
-		<br/>
-		The Relying Party should take care that:
+		<p>The Relying Party should take care that:</p>
 		<ul>
 			<li>with the passive option, there won't be any effective user confirmation - it's only about device authentication</li>
 			<li>with the presence option there is no assurance that the right user is really behind the user-agent</li>
 			<li>with the os option, there is options provided by the OS manufacturer to manage real world use cases - i.e. sensor not capturing the fingerprint switching to the PIN code</li>
 		</ul>
-		Only the active option will guarantee that the user with the right knowledge or biometric characteristic is behind the user-agent.
+		<p>
+		Only the active option will guarantee that the user with the right knowledge or biometric characteristic is behind the user-agent.</p>
 			
 		<h2><span class="secno">3. </span><dfn id="sec-usecases">Use cases</dfn></h2>
 		<p>
@@ -138,13 +138,14 @@
 		
 		<h3><span class="secno">3.1 </span>National electronic identity for accessing public services. </h3>
 		<p>
-		As of 2016, a large number of European countries have already deployed electronic identity systems and offer their citizens access to government services such as paying tax or managing pensions. Examples of countries and associated systems are:
+		As of 2016, a large number of European countries have already deployed electronic identity systems and offer their citizens access to government services such as paying tax or managing pensions. Examples of countries and associated systems are:</p>
 		<ul>
 			<li>Estonia: eEstonia</li>
 			<li>Belgium: eID with eService ecosystem</li>
 			<li>Sweden: Tax Agency card and Telia eID</li>
 			<li>Norway: ID-porten</li>
 		</ul>
+		<p>
 		All the deployed solutions are relying on middleware deployment on citizen devices. </p>
 		<p>
 		Whatever the service accessed, the citizen will be expected to own a hardware token that will carry their electronic identity. This identity (most of the time a certificate for a key pair) will be used to authenticate the user and sign some transaction he or she will be performing on the government portal. The native environment of the citizen device, or of the public service office, is able to access to the hardware token, thanks to a transport layer (USB, ISO 7816 / 14443, Bluetooth Low Energy ...).
@@ -173,11 +174,11 @@
 		<h2><span class="secno">4. </span><dfn id="sec-api">Secure transaction and secure credential storage APIs</dfn></h2>
 
 		<p>This section contains the API descriptions and the different rationale for the architecture and design choices. It covers both functionalities related to the storage and usage of credentials in a hardware based token, and the secure transaction confirmation. Those functions rely on the presence of a credential, referred to here as a key. </p>
-		<p>The life cycle of this key is usual : creation, usage and deletion. In the framework of this short life community group, we will take the following assumptions on the key lifecycle :
+		<p>The life cycle of this key is usual : creation, usage and deletion. In the framework of this short life community group, we will take the following assumptions on the key lifecycle :</p>
 		<ul>
 			<li>the key has already been generated</li>
 			<li>the service using the key is an authorized service - in the framework of the SOP, it is the same service that created the key. The Community Group is in parallel also working on the definition of a mechanism to allow an entity to use some keys generated by another entity, but this requires the definition of a new type of data, associated with a specific key, and this is for future deliverable. Note : all use cases are envisaged with a pre-existing key set.</li>
-		</ul></p>
+		</ul>
 		<h3><span class="secno">4.1 </span>Secure transaction interface</h3>
 			
 		<p>NOTE: This subpart of the API is relying upon pre-existing keys.</p>
@@ -217,13 +218,12 @@ interface <dfn id="dfn-HBSS">HBSS</dfn> {
 		
 		<h4><span class="secno">4.1.2 </span>Secure transaction API details</h4>
 
-		<p>The secure transaction confirmation aims to give the assurance to a remote entity that a transaction is confirmed by the user. Its value relies in the fact that the requested confirmation was sent to the user, was displayed to the user with no alteration and that the user confirmed exactly what was displayed. This is the 'What You See Is What You Confirm' principle.
+		<p>The secure transaction confirmation aims to give the assurance to a remote entity that a transaction is confirmed by the user. Its value relies in the fact that the requested confirmation was sent to the user, was displayed to the user with no alteration and that the user confirmed exactly what was displayed. This is the 'What You See Is What You Confirm' principle.</p>
 		<ul>
 			<li>Transaction confirmation: This operation is defined to request from the browser and underlying security capabilities to ensure that the transaction context, also called non-repudiation message, has been presented to the end-user and provide non-repudiation</li>
 			<li>Device authentication: This operation should be used when the relying party is trying to use a hardware key to authenticate the device without any user consent</li>
 			<li>Digital signature: This operation is defined to allow binary data signature.</li>
 		</ul>
-		</p>
 		
 		<h4>
 			<span class="secno">4.1.3 </span>Data types</h4>
@@ -497,7 +497,7 @@ interface <dfn id="dfn-HBSS">HBSS</dfn> {
 		transaction with the requesting party, the purpose of the transaction and the date of the operation.</p>
 
 		<p>Assumption: for many different reasons, complex data are not the right
-		format to get the end-user consent and confirm her/his acknowledgment: 
+		format to get the end-user consent and confirm her/his acknowledgment: </p>
 		<ul>
 			<li>Liability: The major reasons is that this type of API is targeting valuable transactions with liability. 
 			And for most regulations, liability relies upon the end-user capability to understand the message and confirm it.
@@ -506,7 +506,7 @@ interface <dfn id="dfn-HBSS">HBSS</dfn> {
 			<li>Technical: structured documents (XHTML, XML, RDF, PDF ...) cannot be presented in trusted UI</li>
 			<li>Accessibility: no image should be used</li>
 		</ul>
-		So it should be:
+		<p>So it should be:</p>
 		<ul>
 			<li>text only</li>
 			<li>not too short: it should give enough context information to protect against social engineering and replay attacks</li>
@@ -514,12 +514,12 @@ interface <dfn id="dfn-HBSS">HBSS</dfn> {
 			<li>scoped: it should target a particular operation (type, amount, beneficiary ...) at a particular time</li>
 			<li>localized (UTF-8)</li>
 		</ul>
-		What it should not be:
+		<p>What it should not be:</p>
+		<ul>
 			<li>full list of terms and conditions - but it can be the operation to confirm that the end-user agree with a particular version of the terms and conditions</li>
 			<li>a generic operation request because it would not be scoped (i.e: "Do you confirm this signature operation ?" or "Do you want to confirm the authentication ?")</li>
-		<ul>
 		</ul>
-		
+		<p>
 		NOTE: a particular attention should be paid to UTF-8 characters support with the wide variety of similar characters.
 		Therefore, both	the context and the data should be signed at the same time with the same key. It is then up to the relying 
 		party to ensure	that the data associated with the context are both signed and they match the initial request
@@ -738,7 +738,7 @@ interface SubtleCrypto {
 		<h3><span class="secno">5.2 </span>PC-like environments</h3>
 
 		<p>It is typically the environment where secure elements - either smartcards with readers or usb tokens - are used 
-		with middleware through PKCS#11 or Microsoft Minidriver. In this architecture, the trusted UI is:
+		with middleware through PKCS#11 or Microsoft Minidriver. In this architecture, the trusted UI is:</p>
 		<ul>
 			<li>Either the middleware when the signature is requested through PKCS#11 library</li>
 			<li>Or the Microsoft Windows operating system which manage the secure element user interface for CSP/CNG API</li>
@@ -759,11 +759,12 @@ interface SubtleCrypto {
 
 		<h3><span class="secno">5.3 </span>Mobile environments</h3>
 
-		<p>In mobile environments, Secure Elements are either:
+		<p>In mobile environments, Secure Elements are either:</p>
 		<ul>
 			<li>device binded like embedded Secure Element</li>
 			<li>roaming like SIM or external NFC/BLE factors</li>
 		</ul>
+		<p>
 		But there is no capability to add middleware. It is up the OS manufacturer to provide support for the
 		Secure Elements and provide an API for third party applications including browsers. 
 		</p>
@@ -782,21 +783,19 @@ interface SubtleCrypto {
 		
 		<h3><span class="secno">5.4 </span>About implementations considerations</h3>
 		
-		<p>Implementation into a mobile phone will require:
+		<p>Implementation into a mobile phone will require:</p>
 		<ul>
 			<li>browser modifications to interact with TEE</li>
 			<li>a trusted application interacting with the Secure Element</li>
 		</ul>
-		</p>
 
         <h2><span class="secno">6. </span><dfn id="sec-todo">TODO</dfn></h2>
-        <p>The following topics need to be managed later:
-			<ul>
-				<li>Attestation retrieval by the issuing authority to evaluate the environment (TrustedUI & SE)</li>
-				<li>Post issuance of the key: a specific operation should be added to the Secure Credential Storage API for two reasons: filtering the certified public keys to match the one accepted by the service provider and adding the certified public key during transaction confirmation, device authentication or signature</li>
-				<li>Need to confirm is this API being operated only in the context of <a href="ttps://www.w3.org/TR/secure-contexts/">Priviledged Context</a> or not</li>
-			</ul>
-		</p>
+        <p>The following topics need to be managed later:</p>
+		<ul>
+			<li>Attestation retrieval by the issuing authority to evaluate the environment (TrustedUI & SE)</li>
+			<li>Post issuance of the key: a specific operation should be added to the Secure Credential Storage API for two reasons: filtering the certified public keys to match the one accepted by the service provider and adding the certified public key during transaction confirmation, device authentication or signature</li>
+			<li>Need to confirm is this API being operated only in the context of <a href="ttps://www.w3.org/TR/secure-contexts/">Priviledged Context</a> or not</li>
+		</ul>
 		
 		<div id="dependencies" class="section">
         <h2><span class="secno">7. </span><dfn id="sec-dependencies">Dependencies</dfn></h2>
