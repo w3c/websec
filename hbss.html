@@ -14,7 +14,7 @@
 				</a>
 			</p>
 			<h1 property="dcterms:title" class="title" id="title">Hardware Based Secure Services features</h1>
-			<h2 property="bibo:subtitle" id="subtitle">Draft version - 28 July 2016</h2>
+			<h2 property="bibo:subtitle" id="subtitle">Draft version - 29 August 2016</h2>
 			<dl>
 				<dt>Latest version</dt>
 				<dd>
@@ -81,13 +81,14 @@
 			<li>Relying party: the Web application providing the Secure Service and requesting the hardware access</li>
 			<li>Issuing authority: well known in X509 certificates scheme as certificate authority, the issuing authority is in charge of issuing a associated key/identity pair to a known identity and to maintain its lifecycle. The end-user identification is out-of-scope of this document but is clearly mandatory to associate a key to a genuine identity.</li>
 			<li>Origin: with reference to the Single Origin Policy, in this document an origin refers to an HTTP URL with scheme, host, port without path</li>
-			<li>Secure Element: A secure element is a tamper proof device, providing a secure storage and execution environment for sensitive data and processing. It offers both physical and logical protection against attacks, ensuring integrity and confidentiality of its content.</li>
 			<li>User Agent (UA): a user agent is software (a software agent) that is acting on behalf of a user (from <a href="https://en.wikipedia.org/wiki/User_agent">Wikipedia</a>)</li>
 			<li>User Verification Method: This is the way the Secure Element ensures that only the genuine user is authorized to use the keys. For example, this method could be knowledge of a PIN code or biometric verification.</li>
 			<li>Identity: to be verified by the issuing authority, the identity is cryptographically linked to the key demonstrating who has confirmed a transaction or signed a document</li>
 			<li>Key: asymmetric cryptographic public/private key pair, sometimes linked to an identity</li>
+			<li>Hardware Secure Device: addition of the Secure Credential Storage and the Trusted User Interface with a trusted path between them</li>
+			<li>Secure Credential Storage: A secure credential storage is a tamper proof device, providing a secure storage and execution environment for sensitive data and processing. It offers both physical and logical protection against attacks, ensuring integrity and confidentiality of its content.</li>
 			<li>Trusted User Interface: User interface component outside the direct browser scope providing 
-			an additional level of trust in regards to the transaction confirmation message presented to the end-user to acquire its acknowledgment</li>
+			an additional level of trust in regards to the transaction confirmation message presented to the end-user to acquire its acknowledgment. It covers both the display of the information and the input of the user verification method.</li>
 		</ul>
 
 		<h2><span class="secno">2. </span><dfn id="sec-problem">Problem Statement</dfn></h2>
@@ -163,10 +164,7 @@
 			Without the capability to rely upon Secure Elements in the browser, banks currently face a major issue in being able to replace the existing identity scheme delegation which provides a strong authentication and signature credential.
 		</p>
 
-		<h3><span class="secno">3.3 </span>Transparent device authentication for online payment confirmation on 3DSecure scheme</h3>
-		<p>To be completed by Brian (Visa Europe)</p>
-
-		<h3><span class="secno">3.4 </span>The expectation from secure services</h3>
+		<h3><span class="secno">3.3 </span>The expectation from secure services</h3>
 		<p>
 		Whatever is the envisaged use case, signing a tax payment, confirming a transaction payment, validating the signature of a document, the service needs to rely on a genuine signature and user control. Each service provider needs to have a certain flexibility in designing its security model. Nevertheless, there are some minimum common basic functions that one can find in most of the security operations. The Hardware Based secure Services Community Group identified two technical features that are used on a regular basis : the secure transaction confirmation, and the secure credential storage. It is expected that those secure services, when being implemented natively in user agents, will offer a certain level of resistance and a certain level of trustworthiness. In the following section, those features will be detailed in the form of APIs and their security merits.
 		</p>
@@ -196,8 +194,15 @@
 enum UVMMode { "passive", "presence", 
 "os", "active" };
 
+[Exposed=(Window,Worker)]
+interface Crypto {
+...
+  readonly attribute HWCrypto hwCrypto;
+...
+};
+
 [Exposed=(Window)]
-interface <dfn id="dfn-HBSS">HBSS</dfn> {
+interface <dfn id="dfn-HWCrypto">HWCrypto</dfn> {
 	Promise&lt;any&gt; confirm(DOMString origin, 
 			DOMString NRMessage, 
 			UVMMode mode, 
@@ -442,7 +447,7 @@ interface <dfn id="dfn-HBSS">HBSS</dfn> {
 		
 		<h4><span class="secno">4.1.5 </span>Exceptions</h4>
 		<p>
-            The methods of the <a href="#dfn-HBSS">HBSS</a> interface return errors
+            The methods of the <a href="#dfn-HWCrypto">HWCrypto</a> interface return errors
             by rejecting the returned promise with a predefined exception defined in ECMAScript
             [<a href="#ECMA-262">ECMA-262</a>] or
             <a href="#dfn-DOMException">DOMException</a>. The following predefined exceptions are
@@ -537,7 +542,7 @@ interface <dfn id="dfn-HBSS">HBSS</dfn> {
 		
 		<h4><span class="secno">4.2.1 </span>Secure Credential Storage API</h4>
 		
-		<p>This API relies on the existing but enhanced WebCrypto API to support key naming, as proposed in WebCrypto Key Discovery note, but also defines the notion of HardwareSecureDevice which represents any form of hardware cryptographic device acting as cryptographic provider, in a similar way of what JAVA defines with its framework <a href="#JCA_REF_GUIDE">Java Cryptography Architecture (JCA)</a>, to bring new capabilities to the SubtleCrypto interface and in particular the persistent and secure storage of keys.</p>
+		<p>This API relies on the existing  WebCrypto API and provide some additionnal features to support key naming, as proposed in WebCrypto Key Discovery note, but also defines the notion of HardwareSecureDevice which represents any form of hardware cryptographic device acting as cryptographic provider, in a similar way of what JAVA defines with its framework <a href="#JCA_REF_GUIDE">Java Cryptography Architecture (JCA)</a>, to bring new capabilities to the SubtleCrypto interface and in particular the persistent and secure storage of keys.</p>
 		
 		<h5><span class="secno">4.2.1.1 </span>Window interface</h5>
 		
@@ -591,7 +596,7 @@ interface HardwareSecureDeviceManager : EventTarget {
 		
 		<p>The HardwareSecureDevice interface extends the SubtleCrypto interface providing a different implementation of one or more SubtleCrypto methods in order to let the hardware device handle the cryptographic operation internaly instead of the UA in software. 
 		It can be viewed as a cryptographic provider bringing cryptographic capabilities of a hardware device to the WebCrypto API in a transparent manner.
-		UA MAY defines other classes extending the HardwareSecureDevice one representing different types of hardware secure device with specific implementation. One implementation COULD be using PKCS#11 as transport layer to communicate with a compatible hardware securedevices</p>
+		UA MAY defines other classes extending the HardwareSecureDevice one representing different types of hardware secure device with specific implementation. One implementation COULD be using PKCS#11 as transport layer to communicate with a compatible hardware secure devices</p>
 
 		<div class="block">
 			<div class="blockTitleDiv">
