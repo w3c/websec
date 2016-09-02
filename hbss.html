@@ -77,16 +77,16 @@
 
 		<h3><span class="secno">1.1 </span>Terminology</h3>
 		<ul>
-			<li>Secure Service: any service that manages sensitive operations and would benefit from/depend upon the use of an hardware based security solution.</li>
+			<li>Secure Service: any web site that manages sensitive operations and would benefit from/depend upon the use of an hardware based security solution to give the security proof of the user confirmation integrity and non repudiation</li>
 			<li>Relying party: the Web application providing the Secure Service and requesting the hardware access</li>
-			<li>Issuing authority: well known in X509 certificates scheme as certificate authority, the issuing authority is in charge of issuing a associated key/identity pair to a known identity and to maintain its lifecycle. The end-user identification is out-of-scope of this document but is clearly mandatory to associate a key to a genuine identity.</li>
+			<li>Issuing authority: the issuing authority is in charge of issuing an associated key/identity pair to a known identity and to maintain its lifecycle. The end-user identification is out-of-scope of this document but is clearly mandatory to associate a key to a genuine identity. As an example, in the well known in X509 certificates scheme, the issuing authority is the certificate authority</li>
 			<li>Origin: with reference to the Single Origin Policy, in this document an origin refers to an HTTP URL with scheme, host, port without path</li>
 			<li>User Agent (UA): a user agent is software (a software agent) that is acting on behalf of a user (from <a href="https://en.wikipedia.org/wiki/User_agent">Wikipedia</a>)</li>
-			<li>User Verification Method: This is the way the Secure Element ensures that only the genuine user is authorized to use the keys. For example, this method could be knowledge of a PIN code or biometric verification.</li>
+			<li>User Verification Method: This is the way that the Hardware Secure Device ensures that only a natural and genuine person with possession and knowledge is able to access the keys stored in the Secure Element. For example, this method could be knowledge of a PIN code or biometric verification</li>
 			<li>Identity: to be verified by the issuing authority, the identity is cryptographically linked to the key demonstrating who has confirmed a transaction or signed a document</li>
 			<li>Key: asymmetric cryptographic public/private key pair, sometimes linked to an identity</li>
 			<li>Hardware Secure Device: addition of the Secure Credential Storage and the Trusted User Interface with a trusted path between them</li>
-			<li>Secure Credential Storage: A secure credential storage is a tamper proof device, providing a secure storage and execution environment for sensitive data and processing. It offers both physical and logical protection against attacks, ensuring integrity and confidentiality of its content.</li>
+			<li>Secure Element: A secure element is a tamper proof device, providing a secure storage and execution environment for sensitive data and processing. It offers both physical and logical protection against attacks, ensuring integrity and confidentiality of its content.</li>
 			<li>Trusted User Interface: User interface component outside the direct browser scope providing 
 			an additional level of trust in regards to the transaction confirmation message presented to the end-user to acquire its acknowledgment. It covers both the display of the information and the input of the user verification method.</li>
 		</ul>
@@ -106,7 +106,7 @@
 			<li>any API issued key MUST only be managed and used by its own origin</li>
 		</ul>
 		<p>Extensions will be added later to authorize various origins to use and manage a particular key.</p>
-		
+			
 		<p><em>Position to FIDO and WebAuth standards:</em> this document is focusing on providing web developers means to
 		issue and use identity keys (whether they are X509 certificates or any other cryptographic model with underlying
 		asymmetric cryptography).
@@ -129,8 +129,7 @@
 			<li>with the presence option there is no assurance that the right user is really behind the user-agent</li>
 			<li>with the os option, there is options provided by the OS manufacturer to manage real world use cases - i.e. sensor not capturing the fingerprint switching to the PIN code</li>
 		</ul>
-		<p>
-		Only the active option will guarantee that the user with the right knowledge or biometric characteristic is behind the user-agent.</p>
+		<p>Only the active option will guarantee that the user with the right knowledge or biometric characteristic is behind the user-agent.</p>
 			
 		<h2><span class="secno">3. </span><dfn id="sec-usecases">Use cases</dfn></h2>
 		<p>
@@ -736,7 +735,7 @@ interface SubtleCrypto {
 
 		<h3><span class="secno">5.1 </span>Attestations</h3>
 		<p>
-			Both the Secure Credential Storage and the TrustedUI should be securely identified 
+			Both the Secure Element and the TrustedUI should be securely identified 
 			by attestation. These attestations should be implemented as exposed in the the <a href="#FIDO20_ATTESTATIONS">FIDO 2.0 Attestations</a>.
 		</p>
 
@@ -776,8 +775,7 @@ interface SubtleCrypto {
 		
 		<h4><span class="secno">5.3.1 </span>Generic mobile environments</h4>
 		<p>
-		In this situation, the trusted user interface should be part of the Operating System, interacting with
-		the Secure Credential Storage
+		In this situation, the trusted user interface should be part of the Operating System, interacting with the Secure Element 
 		</p>
 
 		<h4><span class="secno">5.3.2 </span>Mobile environments with Trusted Execution Environment</h4>
