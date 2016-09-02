@@ -80,32 +80,28 @@
 			<li>Secure Service: any web site that manages sensitive operations and would benefit from/depend upon the use of an hardware based security solution to give the security proof of the user confirmation integrity and non repudiation</li>
 			<li>Relying party: the Web application providing the Secure Service and requesting the hardware access</li>
 			<li>Issuing authority: the issuing authority is in charge of issuing an associated key/identity pair to a known identity and to maintain its lifecycle. The end-user identification is out-of-scope of this document but is clearly mandatory to associate a key to a genuine identity. As an example, in the well known in X509 certificates scheme, the issuing authority is the certificate authority</li>
-			<li>Origin: with reference to the Single Origin Policy, in this document an origin refers to an HTTP URL with scheme, host, port without path</li>
+			<li>Origin: with reference to the Same Origin Policy, in this document an origin refers to an HTTP URL with scheme, host, port without path</li>
 			<li>User Agent (UA): a user agent is software (a software agent) that is acting on behalf of a user (from <a href="https://en.wikipedia.org/wiki/User_agent">Wikipedia</a>)</li>
 			<li>User Verification Method: This is the way that the Hardware Secure Device ensures that only a natural and genuine person with possession and knowledge is able to access the keys stored in the Secure Element. For example, this method could be knowledge of a PIN code or biometric verification</li>
 			<li>Identity: to be verified by the issuing authority, the identity is cryptographically linked to the key demonstrating who has confirmed a transaction or signed a document</li>
 			<li>Key: asymmetric cryptographic public/private key pair, sometimes linked to an identity</li>
 			<li>Hardware Secure Device: addition of the Secure Credential Storage and the Trusted User Interface with a trusted path between them</li>
 			<li>Secure Element: A secure element is a tamper proof device, providing a secure storage and execution environment for sensitive data and processing. It offers both physical and logical protection against attacks, ensuring integrity and confidentiality of its content.</li>
-			<li>Trusted User Interface: User interface component outside the direct browser scope providing 
-			an additional level of trust in regards to the transaction confirmation message presented to the end-user to acquire its acknowledgment. It covers both the display of the information and the input of the user verification method.</li>
+			<li>Trusted User Interface: User interface component that provides an additional level of security to the existing browser capabilities in regards to the transaction confirmation message presented to the end-user to acquire its acknowledgment. It covers both the display of the information and the input of the user verification method.</li>
 		</ul>
 
 		<h2><span class="secno">2. </span><dfn id="sec-problem">Problem Statement</dfn></h2>
 
 		<p>At this time Secure Element are not yet usable by web applications. For years, various form factors have been usable thanks to many native API and technologies (PKCS#11, Microsoft API like CSP / Minidriver, Java applet ...). Use cases are valid for native applications but browsers have not been working on integrating those technologies. The need to use secure services in all types of application (native, web app, hybrid) is becoming important, especially on the mobile devices. This document aims to define the next generation Javascript API for two specific requirements for hardware based key management and usage: Secure transaction confirmation and Secure credential storage. These two requirements have been identified by the Hardware Based Secure Services Community Group as being as key to enable a strong security and identity ecosystem.</p>
 		
-		<p>The management of keys is associated with the problem of key usage. On the open web platform, the security principle that prevails everywhere is the Single Origin Policy. This strict policy may have some limitation in some specific cases, where several parties are involved in the delivery of a secure service.</p>
-		
-		<p>Single Origin Policy: one main matter of interest of the hardware-based secure services community group members is how to protect key usage considering the special use case where the credentials are used outside their issuing origin. For example: Suppose that a domain foo.com issues a key. Because the key is not accessible by Javascript API from another domain, we have to design a secure system where the domain bar.com is allowed to use this key.</p>
-
+		<p>The management of keys is associated with the problem of key usage. On the open web platform, the security principle that prevails everywhere is the Same Origin Policy. The corresponding  mapping regarding keys would be that the service issuing the key should be the same the service using the key. But in many use cases, the service using the key should be different from the one that has initially issued it. So one main matter of interest of the hardware-based secure services community group members is how to protect key usage considering the special use case where the credentials are used outside their issuing origin. For example: Suppose that a domain foo.com issues a key. Because the key is not accessible by Javascript API from another domain, we have to design a secure system where the domain bar.com is allowed to use this key.</p>
 		
 		<p>In this document, we assume that:</p>
 		<ul>
 			<li>pre-existing keys and X509 certificates are under the full control of the end-user</li>
 			<li>any API issued key MUST only be managed and used by its own origin</li>
 		</ul>
-		<p>Extensions will be added later to authorize various origins to use and manage a particular key.</p>
+		<p>So in this report, the mechanism to manage the various origins to use and manage a particular key is not defined. Corresponding extensions will be added later.</p>
 			
 		<p><em>Position to FIDO and WebAuth standards:</em> this document is focusing on providing web developers means to
 		issue and use identity keys (whether they are X509 certificates or any other cryptographic model with underlying
