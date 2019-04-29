@@ -48,10 +48,10 @@ authentication experience and support secure communication channels.
 
 * Web Cryptography API
 
-[WebCrypto](http://www.w3.org/2012/webcrypto/) provides a first step
+[WebCrypto](https://www.w3.org/2012/webcrypto/) provides a first step
 toward enabling secure authentication and communication from the
 browser. The
-[Web Cryptography API](http://www.w3.org/TR/WebCryptoAPI/) spec,
+[Web Cryptography API](https://www.w3.org/TR/WebCryptoAPI/) spec,
 currently in Candidate Recommendation and implemented across major
 browsers, provides standard APIs to cryptographic functions such as
 encryption, decryption, signing, hashing, and verification. WebCrypto
@@ -73,7 +73,7 @@ their online accounts and communications, by making hardware security services a
 
 * HTTPS for Communications and Data Security
 
-The [Privileged Contexts](http://www.w3.org/TR/powerful-features/)
+The [Secure Contexts](https://www.w3.org/TR/secure-contexts/)
 draft recommends that powerful features of the Web platform, including
 application code with access to sensitive or private data, be
 delivered only in secure contexts, over authenticated and confidential
@@ -88,12 +88,12 @@ necessary precondition."
 Users' security also depends on Web application authors' ability to
 ensure that their applications are delivered as intended, free from
 spoofing, injection, and
-eavesdropping. [WebAppSec](http://www.w3.org/2011/webappsec/) is
+eavesdropping. [WebAppSec](https://www.w3.org/2011/webappsec/) is
 addressing this challenge from several angles.
 
 * Content Security Policy
 
-[Content Security Policy](http://www.w3.org/TR/CSP/) provides a policy
+[Content Security Policy](https://www.w3.org/TR/CSP/) provides a policy
 language by which application developers can declare a security policy
 for a web resource. The goal of this specification is to reduce attack
 surface by specifying overall rules for what content may or may not
@@ -101,8 +101,8 @@ do, thus preventing violation of security assumptions by attackers who
 are able to partially manipulate that content, for example by script
 injection or cross-site request forgery. An application delivered over
 a secure channel with CSP enabled can assure that users receive it as
-it was intended to be executed. New tools, such as Subresource
-Integrity enable the secure incorporation of aditional elements into
+it was intended to be executed. New tools, such as [Subresource
+Integrity](https://www.w3.org/TR/SRI/) enable the secure incorporation of aditional elements into
 the application.
 
 
@@ -110,9 +110,9 @@ the application.
 
 Several specifications help Web application developers HTTPS-enable
 their Web Apps, including the
-[Upgrade Insecure Requests](http://www.w3.org/TR/upgrade-insecure-requests/)
-and [Mixed Content](http://www.w3.org/TR/mixed-content/)
-drafts. These, along with work such as HSTS and HPKP, help to ease the
+[Upgrade Insecure Requests](https://www.w3.org/TR/upgrade-insecure-requests/)
+and [Mixed Content](https://www.w3.org/TR/mixed-content/)
+drafts. These, along with work such as [HSTS](https://tools.ietf.org/html/rfc6797), [HPKP](https://tools.ietf.org/html/rfc7469) and [Expect-CT](https://tools.ietf.org/html/draft-ietf-httpbis-expect-ct), help to ease the
 HTTPS transition for server operators, and as the proportion of HTTPS
 traffic grows, set user expectations that Web traffic should be
 secure, integrity-protected, and authenticated.
@@ -128,7 +128,7 @@ balances to an imposter instead. Prompted by the
 we may see proposals for new sandboxing capabilities, to permit the
 trustworthy mash-up of active content from multiple sources.
 
-#3. Web Platform Security #
+# 3. Web Platform Security #
 
 Finally, we need to make the Web Platform a place users can expect and
 demand security from all their interactions. That entails upgrading
@@ -148,7 +148,7 @@ preference for secure applications.
 * Security and Privacy Considerations.
 
 The [TAG](https://tag.w3.org/), WebAppSec, and
-[Privacy Interest Group](http://www.w3.org/Privacy/) are developing a
+[Privacy Interest Group](https://www.w3.org/Privacy/) are developing a
 [Privacy and Security Self-Review Questionnaire](https://w3ctag.github.io/security-questionnaire/)
 to help groups assess the privacy and security implications of their
 specifications. To make such self-review a routine part of groups'
